@@ -1,6 +1,8 @@
 import { evaluateLimit, frequencyLabel, measurementStatistics, parseTouchstone } from "./touchstone.js";
 
 const palette = ["#36e0a1", "#62a9ff", "#ffb454", "#d68cff", "#ff6b7a", "#82d5e8"];
+const isPro = window.benchReportDesktop?.edition === "pro";
+const freeMeasurementLimit = 3;
 const defaultRule = () => ({ id: crypto.randomUUID(), name: "Passband insertion loss", parameter: "s21", operator: "min", startMHz: 900, stopMHz: 1100, thresholdDb: -2 });
 const state = { measurements: [], rules: [defaultRule()], logoData: "" };
 const $ = (id) => document.getElementById(id);
@@ -23,6 +25,7 @@ function download(name, contents, type) {
 async function loadFiles(files) {
   const errors = [];
   for (const file of [...files]) {
+    if (!isPro && state.measurements.length >= freeMeasurementLimit) { errors.push(`BenchReport Free supports up to ${freeMeasurementLimit} measurements. BenchReport Pro removes this limit.`); break; }
     try {
       const parsed = decorateMeasurement(parseTouchstone(await file.text(), file.name));
       if (!state.measurements.some((item) => item.filename === parsed.filename)) state.measurements.push(parsed);
@@ -39,6 +42,7 @@ async function loadSamples() {
     { id: crypto.randomUUID(), name: "Input return loss", parameter: "s11", operator: "max", startMHz: 900, stopMHz: 1100, thresholdDb: -8 },
     { id: crypto.randomUUID(), name: "Lower stopband rejection", parameter: "s21", operator: "max", startMHz: 800, stopMHz: 850, thresholdDb: -10 },
   ];
+  if (!isPro) state.rules = [state.rules[0]];
   render();
 }
 
@@ -168,12 +172,12 @@ $("dropZone").addEventListener("dragover", (event) => { event.preventDefault(); 
 $("dropZone").addEventListener("dragleave", () => $("dropZone").classList.remove("dragging"));
 $("dropZone").addEventListener("drop", (event) => { event.preventDefault(); $("dropZone").classList.remove("dragging"); loadFiles(event.dataTransfer.files); });
 $("loadSamples").addEventListener("click", loadSamples);
-$("addRule").addEventListener("click", () => { state.rules.push({ ...defaultRule(), name: `Acceptance rule ${state.rules.length + 1}` }); render(); });
-$("saveProject").addEventListener("click", () => { const filename = `${($("dut").value || "benchreport-project").replace(/[^a-z0-9_-]+/gi, "-")}.brp`; download(filename, JSON.stringify(projectData(), null, 2), "application/json"); $("projectMessage").textContent = `Saved ${filename}`; });
+$("addRule").addEventListener("click", () => { if (!isPro) return; state.rules.push({ ...defaultRule(), name: `Acceptance rule ${state.rules.length + 1}` }); render(); });
+$("saveProject").addEventListener("click", () => { if (!isPro) return; const filename = `${($("dut").value || "benchreport-project").replace(/[^a-z0-9_-]+/gi, "-")}.brp`; download(filename, JSON.stringify(projectData(), null, 2), "application/json"); $("projectMessage").textContent = `Saved ${filename}`; });
 $("openProject").addEventListener("click", () => $("projectInput").click()); $("projectInput").addEventListener("change", (event) => event.target.files[0] && openProject(event.target.files[0]));
 $("printReport").addEventListener("click", () => { render(); window.print(); });
-$("logoInput").addEventListener("change", (event) => { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { state.logoData = reader.result; render(); }; reader.readAsDataURL(file); });
-$("saveTemplate").addEventListener("click", () => { const name = $("templateName").value.trim(); if (!name) { $("projectMessage").textContent = "Enter a template name first."; return; } const templates = JSON.parse(localStorage.getItem("benchreport.templates") || "{}"); templates[name] = state.rules.map((rule) => ({ ...rule, id: crypto.randomUUID() })); localStorage.setItem("benchreport.templates", JSON.stringify(templates)); render(); $("templateSelect").value = name; $("templateName").value = ""; $("projectMessage").textContent = `Saved template: ${name}`; });
+$("logoInput").addEventListener("change", (event) => { if (!isPro) return; const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { state.logoData = reader.result; render(); }; reader.readAsDataURL(file); });
+$("saveTemplate").addEventListener("click", () => { if (!isPro) return; const name = $("templateName").value.trim(); if (!name) { $("projectMessage").textContent = "Enter a template name first."; return; } const templates = JSON.parse(localStorage.getItem("benchreport.templates") || "{}"); templates[name] = state.rules.map((rule) => ({ ...rule, id: crypto.randomUUID() })); localStorage.setItem("benchreport.templates", JSON.stringify(templates)); render(); $("templateSelect").value = name; $("templateName").value = ""; $("projectMessage").textContent = `Saved template: ${name}`; });
 $("deleteTemplate").addEventListener("click", () => { const name = $("templateSelect").value; if (!name) return; const templates = JSON.parse(localStorage.getItem("benchreport.templates") || "{}"); delete templates[name]; localStorage.setItem("benchreport.templates", JSON.stringify(templates)); render(); });
 $("templateSelect").addEventListener("change", (event) => { const templates = JSON.parse(localStorage.getItem("benchreport.templates") || "{}"); if (templates[event.target.value]) { state.rules = templates[event.target.value].map((rule) => ({ ...rule, id: crypto.randomUUID() })); render(); $("templateSelect").value = event.target.value; } });
 ["reportTitle","dut","engineer","projectName","reportId","company","notes"].forEach((id) => $(id).addEventListener("input", render));
@@ -181,6 +185,8 @@ $("templateSelect").addEventListener("change", (event) => { const templates = JS
 window.addEventListener("beforeinstallprompt", (event) => { event.preventDefault(); installPrompt = event; $("installApp").hidden = false; });
 $("installApp").addEventListener("click", async () => { if (!installPrompt) return; await installPrompt.prompt(); installPrompt = null; $("installApp").hidden = true; });
 window.addEventListener("appinstalled", () => { $("projectMessage").textContent = "BenchReport installed successfully."; });
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));
+document.body.classList.add(isPro ? "edition-pro" : "edition-free");
+$("editionBadge").textContent = isPro ? "PRO" : "FREE";
+if (!isPro && "serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));
 
 render();

@@ -20,6 +20,12 @@ BenchReport loads one-port and two-port Touchstone measurements directly in the 
 - Reports support a company logo, DUT, project, report ID, engineer, and notes.
 - The application can be installed as a PWA and used offline after its first successful load.
 
+## Free and Pro editions
+
+The public browser edition remains free and processes up to three measurements with one acceptance rule. [BenchReport Pro](https://edwarddeakin06-maker.github.io/benchreport/pro/) is the local Windows edition and adds unlimited measurements and rules, reusable templates, portable projects, company branding, and complete multi-rule reports.
+
+The launch price planned for BenchReport Pro is **£29 as a one-time licence**. The installer is deliberately not attached to the public repository; automatic paid delivery will be connected through the selected merchant platform.
+
 ## Quick evaluation
 
 1. Open the [live application](https://edwarddeakin06-maker.github.io/benchreport/).
@@ -48,6 +54,23 @@ npm start
 ```
 
 Open `http://localhost:4173`.
+
+## Desktop development
+
+Install development dependencies and launch the Pro shell:
+
+```powershell
+npm install
+npm run desktop
+```
+
+Build the Windows installer:
+
+```powershell
+npm run dist:win
+```
+
+The installer is written to `dist/` and is excluded from Git. Public releases should not include the Pro installer unless they are intentionally being used for paid fulfilment.
 
 ## Test
 

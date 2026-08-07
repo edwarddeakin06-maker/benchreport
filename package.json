@@ -1,10 +1,28 @@
 {
   "name": "benchreport",
-  "version": "0.3.0",
+  "version": "0.4.0",
+  "description": "Local-first Touchstone comparison and RF measurement reporting for Windows.",
+  "author": "BenchReport",
   "private": true,
   "type": "module",
+  "main": "desktop/main.cjs",
   "scripts": {
     "start": "node server.js",
+    "desktop": "electron .",
+    "dist:win": "electron-builder --win nsis",
     "test": "node --test"
+  },
+  "build": {
+    "appId": "com.benchreport.pro",
+    "productName": "BenchReport Pro",
+    "artifactName": "BenchReport-Pro-${version}-Setup.${ext}",
+    "directories": { "output": "dist" },
+    "files": ["desktop/**/*", "assets/**/*", "samples/**/*", "src/**/*", "formats/**/*", "guide/**/*", "privacy/**/*", "pro/**/*", "tools/**/*", "index.html", "styles.css", "product.css", "manifest.webmanifest", "offline.html", "robots.txt", "sitemap.xml", "service-worker.js", "server.js", "package.json"],
+    "win": { "target": ["nsis"], "icon": "build/icon.png" },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true, "createDesktopShortcut": true, "createStartMenuShortcut": true }
+  },
+  "devDependencies": {
+    "electron": "^43.3.0",
+    "electron-builder": "^26.15.3"
   }
 }
