@@ -65,11 +65,32 @@ export function parseTouchstone(text, filename = "measurement.s2p") {
 
 export function evaluateLimit(measurement, parameter, startHz, stopHz, operator, thresholdDb) {
   const selected = measurement.points.filter((point) => point.frequencyHz >= startHz && point.frequencyHz <= stopHz && Number.isFinite(point[parameter]));
-  if (!selected.length) return { status: "NO DATA", worst: null, count: 0 };
-  const values = selected.map((point) => point[parameter]);
-  const worst = operator === "max" ? Math.max(...values) : Math.min(...values);
+  if (!selected.length) return { status: "NO DATA", worst: null, worstFrequencyHz: null, count: 0 };
+  const worstPoint = selected.reduce((worst, point) => operator === "max"
+    ? (point[parameter] > worst[parameter] ? point : worst)
+    : (point[parameter] < worst[parameter] ? point : worst));
+  const worst = worstPoint[parameter];
   const passed = operator === "max" ? worst <= thresholdDb : worst >= thresholdDb;
-  return { status: passed ? "PASS" : "FAIL", worst, count: selected.length };
+  return { status: passed ? "PASS" : "FAIL", worst, worstFrequencyHz: worstPoint.frequencyHz, count: selected.length };
+}
+
+export function measurementStatistics(measurement, parameter) {
+  const points = measurement.points.filter((point) => Number.isFinite(point[parameter]));
+  if (!points.length) return null;
+  const minimum = points.reduce((best, point) => point[parameter] < best[parameter] ? point : best);
+  const maximum = points.reduce((best, point) => point[parameter] > best[parameter] ? point : best);
+  const peak = maximum[parameter];
+  const cutoff = peak - 3;
+  const inBand = points.filter((point) => point[parameter] >= cutoff);
+  const lowHz = inBand.length ? inBand[0].frequencyHz : null;
+  const highHz = inBand.length ? inBand[inBand.length - 1].frequencyHz : null;
+  return {
+    minimumDb: minimum[parameter], minimumFrequencyHz: minimum.frequencyHz,
+    maximumDb: maximum[parameter], maximumFrequencyHz: maximum.frequencyHz,
+    bandwidth3dBHz: lowHz === null ? null : highHz - lowHz,
+    centreFrequencyHz: lowHz === null ? null : (lowHz + highHz) / 2,
+    peakInsertionLossDb: parameter === "s21" ? Math.abs(Math.min(0, peak)) : null,
+  };
 }
 
 export function frequencyLabel(hz) {

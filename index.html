@@ -32,25 +32,36 @@
           <span>or browse from this computer</span>
         </label>
         <button id="loadSamples" class="secondary-button" type="button">Load synthetic filter samples</button>
+        <div class="project-actions">
+          <button id="openProject" class="secondary-button" type="button">Open project</button>
+          <button id="saveProject" class="secondary-button" type="button">Save project</button>
+          <input id="projectInput" type="file" accept=".brp,.json" hidden />
+        </div>
         <div id="fileList" class="file-list"></div>
 
-        <div class="step divider"><span>02</span><div><h2>Trace and limit</h2><p>Apply one acceptance rule</p></div></div>
-        <div class="form-grid">
-          <label>Parameter<select id="parameter"><option>S11</option><option selected>S21</option><option>S12</option><option>S22</option></select></label>
-          <label>Rule<select id="operator"><option value="min" selected>At least</option><option value="max">At most</option></select></label>
-          <label>Start (MHz)<input id="startMHz" type="number" value="900" step="1" /></label>
-          <label>Stop (MHz)<input id="stopMHz" type="number" value="1100" step="1" /></label>
-          <label class="full">Threshold (dB)<input id="threshold" type="number" value="-2" step="0.1" /></label>
+        <div class="step divider"><span>02</span><div><h2>Traces and limits</h2><p>Build a reusable acceptance matrix</p></div></div>
+        <div class="form-grid template-controls">
+          <label class="full">Template<select id="templateSelect"><option value="">Current rules</option></select></label>
+          <label class="full">New template name<input id="templateName" placeholder="e.g. 1 GHz filter acceptance" /></label>
+          <button id="saveTemplate" class="secondary-button" type="button">Save template</button>
+          <button id="deleteTemplate" class="secondary-button danger-button" type="button">Delete</button>
         </div>
+        <div id="ruleList" class="rule-list"></div>
+        <button id="addRule" class="secondary-button" type="button">+ Add acceptance rule</button>
 
         <div class="step divider"><span>03</span><div><h2>Report details</h2><p>Used in the PDF header</p></div></div>
         <div class="form-grid">
           <label class="full">Report title<input id="reportTitle" value="RF Filter Acceptance Report" /></label>
           <label>DUT / part<input id="dut" value="BR-Demo-01" /></label>
           <label>Engineer<input id="engineer" placeholder="Name or initials" /></label>
+          <label>Project<input id="projectName" placeholder="Project or programme" /></label>
+          <label>Report ID<input id="reportId" value="BR-0001" /></label>
+          <label class="full">Company<input id="company" placeholder="Company or laboratory" /></label>
+          <label class="full logo-field">Logo<input id="logoInput" type="file" accept="image/png,image/jpeg,image/svg+xml" /></label>
           <label class="full">Notes<textarea id="notes" rows="3" placeholder="Fixture, calibration, temperature, or test context"></textarea></label>
         </div>
         <button id="printReport" class="primary-button" type="button">Export / print report</button>
+        <p id="projectMessage" class="project-message" role="status"></p>
         <p class="button-note">Choose “Save as PDF” in the print dialog.</p>
       </aside>
 
@@ -63,17 +74,20 @@
           </div>
           <div class="chart-card"><canvas id="chart" width="1000" height="540" aria-label="S-parameter comparison chart"></canvas></div>
           <div id="resultCards" class="result-cards"></div>
-          <div class="marker-card"><div><span class="label">Active rule</span><strong id="ruleSummary"></strong></div><div><span class="label">Band</span><strong id="bandSummary"></strong></div></div>
+          <div class="analysis-section"><div class="section-heading"><h3>Rule results</h3><span id="ruleCount"></span></div><div class="table-scroll"><table class="analysis-table"><thead><tr><th>Rule</th><th>Measurement</th><th>Worst value</th><th>Frequency</th><th>Result</th></tr></thead><tbody id="ruleResultRows"></tbody></table></div></div>
+          <div class="analysis-section"><div class="section-heading"><h3>Measurement statistics</h3><span>Calculated from the displayed trace</span></div><div id="statisticsCards" class="statistics-cards"></div></div>
         </div>
       </section>
     </section>
 
     <section id="report" class="report">
-      <div class="report-head"><div><p class="eyebrow">BenchReport measurement record</p><h1 id="reportTitleOut">RF Filter Acceptance Report</h1></div><div id="reportStatus" class="report-status">—</div></div>
-      <div class="report-meta"><div><span>DUT / part</span><strong id="dutOut">BR-Demo-01</strong></div><div><span>Engineer</span><strong id="engineerOut">—</strong></div><div><span>Generated</span><strong id="dateOut">—</strong></div><div><span>Data handling</span><strong>Processed locally</strong></div></div>
+      <div class="report-head"><div class="report-identity"><img id="reportLogo" hidden alt="Company logo" /><div><p id="companyOut" class="eyebrow">BenchReport measurement record</p><h1 id="reportTitleOut">RF Filter Acceptance Report</h1></div></div><div id="reportStatus" class="report-status">—</div></div>
+      <div class="report-meta"><div><span>DUT / part</span><strong id="dutOut">BR-Demo-01</strong></div><div><span>Project</span><strong id="projectOut">—</strong></div><div><span>Report ID</span><strong id="reportIdOut">BR-0001</strong></div><div><span>Engineer</span><strong id="engineerOut">—</strong></div><div><span>Generated</span><strong id="dateOut">—</strong></div><div><span>Data handling</span><strong>Processed locally</strong></div></div>
       <div class="report-chart"><img id="reportChart" alt="Measurement comparison chart" /></div>
       <h2>Acceptance results</h2>
-      <table><thead><tr><th>Measurement</th><th>Trace</th><th>Band</th><th>Requirement</th><th>Worst value</th><th>Result</th></tr></thead><tbody id="reportRows"></tbody></table>
+      <table><thead><tr><th>Rule</th><th>Measurement</th><th>Band</th><th>Requirement</th><th>Worst value / frequency</th><th>Result</th></tr></thead><tbody id="reportRows"></tbody></table>
+      <h2>Measurement statistics</h2>
+      <table><thead><tr><th>Measurement</th><th>Minimum</th><th>Maximum</th><th>3 dB bandwidth</th><th>Centre frequency</th><th>Peak insertion loss</th></tr></thead><tbody id="reportStatistics"></tbody></table>
       <div class="report-notes"><h2>Test notes</h2><p id="notesOut">No notes supplied.</p></div>
       <footer>Generated by BenchReport prototype · Results should be reviewed by a competent engineer.</footer>
     </section>

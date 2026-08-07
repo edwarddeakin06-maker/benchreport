@@ -1,0 +1,24 @@
+{
+  "format": "benchreport-project",
+  "version": 1,
+  "savedAt": "2026-08-07T00:00:00.000Z",
+  "measurements": [{
+    "filename": "reopened-filter.s2p",
+    "ports": 2,
+    "format": "db",
+    "unit": "mhz",
+    "points": [
+      {"frequencyHz": 900000000, "s11": -12, "s21": -1.2, "s12": -50, "s22": -11},
+      {"frequencyHz": 1000000000, "s11": -18, "s21": -0.5, "s12": -50, "s22": -17},
+      {"frequencyHz": 1100000000, "s11": -11, "s21": -1.4, "s12": -50, "s22": -10}
+    ],
+    "id": "fixture-measurement",
+    "name": "Reopened golden filter",
+    "color": "#36e0a1",
+    "visible": true,
+    "reference": true
+  }],
+  "rules": [{"id":"fixture-rule","name":"Saved passband","parameter":"s21","operator":"min","startMHz":900,"stopMHz":1100,"thresholdDb":-2}],
+  "logoData": "",
+  "fields": {"reportTitle":"Reopened project report","dut":"FIXTURE-01","engineer":"QA","projectName":"Project persistence","reportId":"BR-FIXTURE","company":"BenchReport QA","notes":"Portable project fixture"}
+}

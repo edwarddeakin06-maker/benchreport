@@ -1,14 +1,18 @@
-# BenchReport
+# BenchReport 0.2
 
 BenchReport is a local-first RF measurement reporting prototype. Load one-port or two-port Touchstone files, compare traces, apply a frequency-band acceptance limit, and produce a clean printable report without uploading measurement data.
 
-## Prototype features
+## Features
 
 - Parses `.s1p` and `.s2p` Touchstone files in DB/angle, magnitude/angle, or real/imaginary form
 - Compares S11, S21, S12, or S22 across multiple measurements
-- Applies an “at most” or “at least” dB limit over a selected frequency band
-- Shows per-file and overall pass/fail results
-- Produces an A4 landscape report using the browser print dialog
+- Applies multiple named “at most” or “at least” limits over independent frequency bands and traces
+- Records worst-case values and their exact frequencies
+- Calculates minima, maxima, 3 dB bandwidth, centre frequency, and S21 peak insertion loss
+- Saves reusable limit templates in the browser
+- Renames, recolours, hides, and marks golden/reference traces
+- Saves and reopens complete portable `.brp` project files, including measurement data
+- Produces a branded, multi-rule A4 landscape report with project metadata, logo, statistics, and pass/fail results
 - Includes three entirely synthetic filter measurements for evaluation
 - Runs without application dependencies or external services
 

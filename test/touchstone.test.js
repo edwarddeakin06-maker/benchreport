@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { evaluateLimit, parseTouchstone } from "../src/touchstone.js";
+import { evaluateLimit, measurementStatistics, parseTouchstone } from "../src/touchstone.js";
 
 test("parses two-port DB data in Touchstone order", () => {
   const result = parseTouchstone("# MHz S DB R 50\n100 -10 0 -1 0 -30 0 -12 0\n", "filter.s2p");
@@ -19,4 +19,13 @@ test("evaluates maximum and minimum limits", () => {
   const measurement = parseTouchstone("# MHz S DB R 50\n100 -12 0\n200 -9 0\n", "antenna.s1p");
   assert.equal(evaluateLimit(measurement, "s11", 90e6, 210e6, "max", -10).status, "FAIL");
   assert.equal(evaluateLimit(measurement, "s11", 90e6, 210e6, "min", -13).status, "PASS");
+  assert.equal(evaluateLimit(measurement, "s11", 90e6, 210e6, "max", -10).worstFrequencyHz, 200e6);
+});
+
+test("calculates RF trace statistics and 3 dB bandwidth", () => {
+  const measurement = parseTouchstone("# MHz S DB R 50\n100 -20 0\n200 -2 0\n300 -1 0\n400 -2 0\n500 -20 0\n", "filter.s1p");
+  const stats = measurementStatistics(measurement, "s11");
+  assert.equal(stats.maximumFrequencyHz, 300e6);
+  assert.equal(stats.bandwidth3dBHz, 200e6);
+  assert.equal(stats.centreFrequencyHz, 300e6);
 });
