@@ -46,6 +46,28 @@ async function loadSamples() {
   render();
 }
 
+const demoSteps = [
+  { title: "Three measurements, loaded locally", text: "The golden trace and two production units are now overlaid. Nothing was uploaded.", action: "Show the failed limit →", target: "#analysis" },
+  { title: "One unit fails the passband limit", text: "The red FAIL status is calculated across the selected frequency band, including the worst value and its exact frequency.", action: "Show the report →", target: "#ruleResultRows" },
+  { title: "The report is already assembled", text: "BenchReport carries the chart, acceptance result and measurement statistics into a printable report. Pro adds reusable projects, unlimited rules and branding.", action: "Compare Free and Pro →", target: "#printReport" },
+];
+let demoStep = 0;
+function showDemoStep(index) {
+  demoStep = index;
+  const step = demoSteps[index];
+  $("demoStepLabel").textContent = `Step ${index + 1} of ${demoSteps.length}`;
+  $("demoCoachTitle").textContent = step.title;
+  $("demoCoachText").textContent = step.text;
+  $("demoNext").textContent = step.action;
+  $("demoBack").hidden = index === 0;
+  $("demoCoach").hidden = false;
+  document.querySelector(step.target)?.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+async function startGuidedDemo() {
+  await loadSamples();
+  showDemoStep(0);
+}
+
 function evaluateAll() {
   return state.rules.flatMap((rule) => visibleMeasurements().map((measurement) => ({
     rule, measurement,
@@ -172,6 +194,10 @@ $("dropZone").addEventListener("dragover", (event) => { event.preventDefault(); 
 $("dropZone").addEventListener("dragleave", () => $("dropZone").classList.remove("dragging"));
 $("dropZone").addEventListener("drop", (event) => { event.preventDefault(); $("dropZone").classList.remove("dragging"); loadFiles(event.dataTransfer.files); });
 $("loadSamples").addEventListener("click", loadSamples);
+$("startDemo").addEventListener("click", startGuidedDemo);
+$("closeDemo").addEventListener("click", () => { $("demoCoach").hidden = true; });
+$("demoBack").addEventListener("click", () => showDemoStep(Math.max(0, demoStep - 1)));
+$("demoNext").addEventListener("click", () => { if (demoStep === demoSteps.length - 1) window.location.href = "pro/"; else showDemoStep(demoStep + 1); });
 $("addRule").addEventListener("click", () => { if (!isPro) return; state.rules.push({ ...defaultRule(), name: `Acceptance rule ${state.rules.length + 1}` }); render(); });
 $("saveProject").addEventListener("click", () => { if (!isPro) return; const filename = `${($("dut").value || "benchreport-project").replace(/[^a-z0-9_-]+/gi, "-")}.brp`; download(filename, JSON.stringify(projectData(), null, 2), "application/json"); $("projectMessage").textContent = `Saved ${filename}`; });
 $("openProject").addEventListener("click", () => $("projectInput").click()); $("projectInput").addEventListener("change", (event) => event.target.files[0] && openProject(event.target.files[0]));

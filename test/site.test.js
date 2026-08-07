@@ -31,3 +31,13 @@ test("Free edition links users to the priced Pro comparison", async () => {
   assert.match(html, /href="pro\/"/);
   assert.match(html, /href="support\/"/);
 });
+
+test("Free edition offers a self-contained guided demo", async () => {
+  const [html, app] = await Promise.all([read("index.html"), read("src/app.js")]);
+  assert.match(html, /id="startDemo"/);
+  assert.match(html, /60-second guided demo/);
+  assert.match(html, /id="demoCoach"/);
+  assert.match(app, /await loadSamples\(\)/);
+  assert.match(app, /One unit fails the passband limit/);
+  assert.match(app, /window\.location\.href = "pro\/"/);
+});
