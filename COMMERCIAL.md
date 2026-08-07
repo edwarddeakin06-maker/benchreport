@@ -21,12 +21,15 @@
 - Branded multi-rule PDF report
 - Local Windows application
 
-## Planned launch offer
+## Launch offer
 
 - Price: £29 GBP
 - Licence: one user, one-time purchase
-- Fulfilment: automatic installer delivery from the merchant platform
-- Refund and update terms: must be written before checkout opens
+- Fulfilment: automatic installer delivery through Gumroad
+- Checkout: https://deakinator80.gumroad.com/l/benchreport-pro
+- Refund: 30-day money-back guarantee through Gumroad
+- Updates: all BenchReport Pro 0.x maintenance releases
+- Published terms: https://edwarddeakin06-maker.github.io/benchreport/support/
 
 ## Build and verification
 
@@ -41,15 +44,14 @@ Get-FileHash dist\BenchReport-Pro-0.4.0-Setup.exe -Algorithm SHA256
 
 Do not attach the Pro installer to a public GitHub release. The repository workflow creates a build artifact only when manually dispatched.
 
-## Remaining merchant handoff
+## Merchant handoff status
 
-1. Create the merchant account in the owner's legal name.
-2. Complete payout, tax, and identity details.
-3. Create a £29 digital software product.
-4. Upload the verified installer.
-5. Copy the checkout URL into `pro/index.html`.
-6. Add refund, licence, and update terms.
-7. Complete a real low-value test purchase before launch.
+1. Gumroad product published at the checkout URL above.
+2. Installer uploaded for automatic delivery.
+3. Receipt, licence summary, SmartScreen notice, cover, and thumbnail configured.
+4. Public licence, refund, support, update, and integrity information published.
+5. Outstanding: replace the personal Gumroad support email with a dedicated BenchReport mailbox.
+6. Repeat Gumroad's test-purchase flow after every installer update.
 
 ## Distribution caveat
 
