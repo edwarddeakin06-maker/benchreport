@@ -6,7 +6,7 @@
 
 [Open the free application](https://edwarddeakin06-maker.github.io/benchreport/) · [Get BenchReport Pro](https://edwarddeakin06-maker.github.io/benchreport/pro/) · [Read the user guide](https://edwarddeakin06-maker.github.io/benchreport/guide/) · [Check supported formats](https://edwarddeakin06-maker.github.io/benchreport/formats/)
 
-![BenchReport Pro product preview](assets/benchreport-pro-cover.png)
+![BenchReport guided RF reporting demonstration](assets/benchreport-demo.gif)
 
 BenchReport loads one-port and two-port Touchstone measurements directly in the browser. It compares traces, applies reusable acceptance rules, calculates RF statistics, and produces a structured report without uploading source measurement files.
 

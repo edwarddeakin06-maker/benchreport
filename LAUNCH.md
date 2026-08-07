@@ -69,11 +69,41 @@ Useful criticism is welcome, particularly malformed Touchstone cases, reporting 
 
 ## First-day sequence
 
-1. Publish the r/rfelectronics post first, after checking the current community rules and choosing any required self-promotion flair.
-2. Reply to technical feedback; do not repeatedly post the purchase link.
-3. Publish the LinkedIn post two to four hours later using the product cover image.
-4. Post the EEVblog thread only after reading the current forum rules and choosing the Projects or RF section that best fits.
-5. Record visits, free-tool usage, checkout clicks and sales after 24 hours.
+1. Do not repost to r/rfelectronics or r/SideProject today; reply to genuine technical feedback instead.
+2. Share the demo only where current rules explicitly permit self-promotion, using the required flair or recurring thread.
+3. Use the r/software Self-Promotion Wednesday thread rather than creating an ordinary promotional post.
+4. Build a genuine contribution history on EEVblog before sharing the project; its rules prohibit accounts primarily created to promote a business.
+5. Record Gumroad product views and sales after 24 hours; do not add invasive analytics to the local-first tool.
+
+## Short demonstration post
+
+### Title
+
+Compare three S2P files and find the failed RF limit locally
+
+### Body
+
+I kept rebuilding the same spreadsheet workflow to compare Touchstone measurements and document acceptance failures, so I built a local browser-based alternative.
+
+This example loads three synthetic S2P files, overlays S21, applies a 900–1100 MHz insertion-loss limit, and identifies the failing unit and exact worst-case frequency. Files remain on the device.
+
+Free tool: https://edwarddeakin06-maker.github.io/benchreport/
+
+Source and parser tests: https://github.com/edwarddeakin06-maker/benchreport
+
+I am the developer. I would particularly value feedback on the reporting workflow and Touchstone files that do not parse correctly.
+
+Attach `assets/benchreport-demo.gif` when the platform supports image uploads.
+
+## r/software Self-Promotion Wednesday reply
+
+**BenchReport — local S1P/S2P comparison and RF reporting**
+
+Free browser tool for overlaying Touchstone measurements, applying a frequency-bounded pass/fail limit, finding the exact worst-case frequency, and producing a printable report. Files are processed locally and the guided demo uses synthetic data, so no upload or account is required.
+
+Try it: https://edwarddeakin06-maker.github.io/benchreport/
+
+I built it and there is an optional paid Windows edition, so this is self-promotion. The free workflow is fully usable on its own.
 
 ## Response templates
 
