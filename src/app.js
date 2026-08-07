@@ -5,6 +5,7 @@ const defaultRule = () => ({ id: crypto.randomUUID(), name: "Passband insertion 
 const state = { measurements: [], rules: [defaultRule()], logoData: "" };
 const $ = (id) => document.getElementById(id);
 const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]);
+let installPrompt = null;
 
 function decorateMeasurement(parsed, index = state.measurements.length) {
   return { ...parsed, id: crypto.randomUUID(), name: parsed.filename.replace(/\.s\d+p$/i, ""), color: palette[index % palette.length], visible: true, reference: index === 0 };
@@ -51,7 +52,7 @@ function evaluateAll() {
 function overallStatus(results) {
   if (!results.length) return "—";
   if (results.some(({ result }) => result.status === "FAIL")) return "FAIL";
-  if (results.some(({ result }) => result.status === "NO DATA")) return "REVIEW";
+  if (results.some(({ result }) => result.status !== "PASS")) return "REVIEW";
   return "PASS";
 }
 
@@ -87,7 +88,7 @@ function renderMeasurements() {
   $("fileList").innerHTML = state.measurements.map((measurement) => `<div class="file-item measurement-item" data-id="${measurement.id}">
     <input class="trace-visible" type="checkbox" ${measurement.visible ? "checked" : ""} title="Show trace" />
     <input class="trace-color" type="color" value="${measurement.color}" title="Trace colour" />
-    <div class="trace-name-wrap"><input class="trace-name" value="${escapeHtml(measurement.name)}" /><small>${escapeHtml(measurement.filename)} · ${measurement.points.length} points</small></div>
+    <div class="trace-name-wrap"><input class="trace-name" value="${escapeHtml(measurement.name)}" /><small>${escapeHtml(measurement.filename)} · ${measurement.points.length} points${measurement.warnings?.length ? ` · ⚠ ${escapeHtml(measurement.warnings[0])}` : ""}</small></div>
     <label class="reference-control" title="Golden/reference measurement"><input class="trace-reference" name="reference" type="radio" ${measurement.reference ? "checked" : ""} /> Ref</label>
     <button class="trace-remove" title="Remove">×</button></div>`).join("");
   document.querySelectorAll(".measurement-item").forEach((row) => {
@@ -176,5 +177,10 @@ $("saveTemplate").addEventListener("click", () => { const name = $("templateName
 $("deleteTemplate").addEventListener("click", () => { const name = $("templateSelect").value; if (!name) return; const templates = JSON.parse(localStorage.getItem("benchreport.templates") || "{}"); delete templates[name]; localStorage.setItem("benchreport.templates", JSON.stringify(templates)); render(); });
 $("templateSelect").addEventListener("change", (event) => { const templates = JSON.parse(localStorage.getItem("benchreport.templates") || "{}"); if (templates[event.target.value]) { state.rules = templates[event.target.value].map((rule) => ({ ...rule, id: crypto.randomUUID() })); render(); $("templateSelect").value = event.target.value; } });
 ["reportTitle","dut","engineer","projectName","reportId","company","notes"].forEach((id) => $(id).addEventListener("input", render));
+
+window.addEventListener("beforeinstallprompt", (event) => { event.preventDefault(); installPrompt = event; $("installApp").hidden = false; });
+$("installApp").addEventListener("click", async () => { if (!installPrompt) return; await installPrompt.prompt(); installPrompt = null; $("installApp").hidden = true; });
+window.addEventListener("appinstalled", () => { $("projectMessage").textContent = "BenchReport installed successfully."; });
+if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));
 
 render();

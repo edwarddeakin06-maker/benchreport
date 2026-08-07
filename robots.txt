@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://edwarddeakin06-maker.github.io/benchreport/sitemap.xml

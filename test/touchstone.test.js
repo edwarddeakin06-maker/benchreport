@@ -29,3 +29,21 @@ test("calculates RF trace statistics and 3 dB bandwidth", () => {
   assert.equal(stats.bandwidth3dBHz, 200e6);
   assert.equal(stats.centreFrequencyHz, 300e6);
 });
+
+test("sorts data and keeps the final duplicate frequency row", () => {
+  const measurement = parseTouchstone("# MHz S DB R 50\n200 -8 0\n100 -12 0\n200 -9 0\n", "duplicate.s1p");
+  assert.deepEqual(measurement.points.map((point) => point.frequencyHz), [100e6, 200e6]);
+  assert.equal(measurement.points[1].s11, -9);
+  assert.equal(measurement.warnings.length, 1);
+});
+
+test("rejects unsupported option lines and invalid rule ranges", () => {
+  assert.throws(() => parseTouchstone("# furlong S DB R 50\n1 -10 0\n", "bad.s1p"), /frequency unit/);
+  const measurement = parseTouchstone("# MHz S DB R 50\n100 -10 0\n", "valid.s1p");
+  assert.equal(evaluateLimit(measurement, "s11", 200e6, 100e6, "max", -10).status, "INVALID RULE");
+});
+
+test("reports no data when a valid rule band has no samples", () => {
+  const measurement = parseTouchstone("# MHz S DB R 50\n100 -10 0\n", "valid.s1p");
+  assert.equal(evaluateLimit(measurement, "s11", 200e6, 300e6, "max", -10).status, "NO DATA");
+});

@@ -1,30 +1,53 @@
-# BenchReport 0.2
+# BenchReport
 
-BenchReport is a local-first RF measurement reporting prototype. Load one-port or two-port Touchstone files, compare traces, apply a frequency-band acceptance limit, and produce a clean printable report without uploading measurement data.
+[![Test](https://github.com/edwarddeakin06-maker/benchreport/actions/workflows/test.yml/badge.svg)](https://github.com/edwarddeakin06-maker/benchreport/actions/workflows/test.yml)
 
-## Features
+**Local-first Touchstone comparison, RF acceptance analysis, and measurement reporting.**
 
-- Parses `.s1p` and `.s2p` Touchstone files in DB/angle, magnitude/angle, or real/imaginary form
-- Compares S11, S21, S12, or S22 across multiple measurements
-- Applies multiple named “at most” or “at least” limits over independent frequency bands and traces
-- Records worst-case values and their exact frequencies
-- Calculates minima, maxima, 3 dB bandwidth, centre frequency, and S21 peak insertion loss
-- Saves reusable limit templates in the browser
-- Renames, recolours, hides, and marks golden/reference traces
-- Saves and reopens complete portable `.brp` project files, including measurement data
-- Produces a branded, multi-rule A4 landscape report with project metadata, logo, statistics, and pass/fail results
-- Includes three entirely synthetic filter measurements for evaluation
-- Runs without application dependencies or external services
+[Open the live application](https://edwarddeakin06-maker.github.io/benchreport/) · [Read the user guide](https://edwarddeakin06-maker.github.io/benchreport/guide/) · [Check supported formats](https://edwarddeakin06-maker.github.io/benchreport/formats/)
+
+BenchReport loads one-port and two-port Touchstone measurements directly in the browser. It compares traces, applies reusable acceptance rules, calculates RF statistics, and produces a structured report without uploading source measurement files.
+
+## Why BenchReport
+
+- Measurement files remain on the user's device.
+- Multiple `.s1p` and `.s2p` measurements can be overlaid and compared.
+- Named limit rules produce a measurement-by-rule pass/fail matrix.
+- Worst-case values include the exact sampled frequency.
+- S21 statistics include peak insertion loss, 3 dB bandwidth, and centre frequency.
+- Traces can be renamed, recoloured, hidden, or selected as the golden reference.
+- Complete projects can be saved as portable `.brp` files and reopened later.
+- Reports support a company logo, DUT, project, report ID, engineer, and notes.
+- The application can be installed as a PWA and used offline after its first successful load.
+
+## Quick evaluation
+
+1. Open the [live application](https://edwarddeakin06-maker.github.io/benchreport/).
+2. Select **Load synthetic filter samples**.
+3. Review the two passing units and the deliberately degraded unit.
+4. Hide the degraded measurement and observe the project recalculate to PASS.
+5. Select **Export / print report** and choose **Save as PDF**.
+
+All included measurements and logos are synthetic. They contain no employer, customer, defence, or real device data.
+
+## Supported input
+
+- Touchstone `.s1p` and `.s2p`
+- DB / angle, magnitude / angle, and real / imaginary representations
+- Hz, kHz, MHz, and GHz option-line units
+- Touchstone 1.0-style two-port ordering: S11, S21, S12, S22
+
+Malformed numeric data, invalid option lines, and invalid frequencies are rejected with a clear error. Duplicate frequencies are collapsed deterministically and reported as a warning.
 
 ## Run locally
 
-Install Node.js 18 or later, then run:
+Install Node.js 18 or later:
 
 ```powershell
 npm start
 ```
 
-Open `http://localhost:4173`. Select **Load synthetic filter samples** for an immediate demonstration. To create a PDF, select **Export / print report**, then choose **Save as PDF** in the print dialog.
+Open `http://localhost:4173`.
 
 ## Test
 
@@ -32,14 +55,26 @@ Open `http://localhost:4173`. Select **Load synthetic filter samples** for an im
 npm test
 ```
 
-## Current scope
+Tests run automatically on GitHub for pushes and pull requests.
 
-This is a product-validation prototype, not calibrated test software. It supports Touchstone 1.0-style one-port and two-port S-parameter data. It does not yet support Touchstone 2.0 matrix ordering options, noise parameters, de-embedding, uncertainty calculations, instrument control, or signed report records.
+## Engineering limitations
 
-## Independence and data handling
+BenchReport is analysis and documentation software, not a calibrated instrument or an approved test process. It does not currently provide:
 
-Measurement processing occurs in the browser. No file contents are sent anywhere. All included measurements are synthetic and do not represent employer, customer, defence, or real device data.
+- Touchstone 2.0 matrix-order support
+- More than two ports
+- Noise parameters
+- De-embedding or calibration
+- Interpolation at acceptance-band boundaries
+- Measurement uncertainty
+- Time-domain transforms
+- Instrument control
+- Cryptographically signed report records
 
-## Product direction
+Results must be reviewed by a competent engineer against the source measurement and applicable procedures.
 
-The intended commercial split is a free viewer and a paid reporting edition with reusable templates, limit masks, batch processing, branded output, and packaged desktop distribution.
+## Privacy
+
+Touchstone parsing, charting, rule evaluation, project generation, and report generation occur in the browser. Templates use browser-local storage. Saved `.brp` files may contain the complete measurement dataset and should be handled according to its sensitivity.
+
+See the complete [privacy page](https://edwarddeakin06-maker.github.io/benchreport/privacy/).

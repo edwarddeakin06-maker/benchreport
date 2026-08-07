@@ -1,0 +1,11 @@
+{
+  "name": "BenchReport RF Measurement Reporting",
+  "short_name": "BenchReport",
+  "description": "Local-first Touchstone comparison, acceptance limits, and RF measurement reports.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#071016",
+  "theme_color": "#071016",
+  "icons": [{"src":"assets/benchreport-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

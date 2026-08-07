@@ -22,12 +22,17 @@ export function parseTouchstone(text, filename = "measurement.s2p") {
   let format = "ma";
   let parameter = "s";
   const numericLines = [];
+  const warnings = [];
+  let optionLineSeen = false;
 
   for (const raw of text.split(/\r?\n/)) {
     const line = raw.split("!")[0].trim();
     if (!line) continue;
     if (line.startsWith("#")) {
       const options = line.slice(1).trim().toLowerCase().split(/\s+/);
+      optionLineSeen = true;
+      if (!options.some((item) => item in frequencyScale)) throw new Error("The Touchstone option line has an unsupported or missing frequency unit.");
+      if (!options.some((item) => ["ma", "db", "ri"].includes(item))) throw new Error("The Touchstone option line must specify DB, MA, or RI data.");
       unit = options.find((item) => item in frequencyScale) || unit;
       parameter = options.find((item) => ["s", "y", "z", "h", "g"].includes(item)) || parameter;
       format = options.find((item) => ["ma", "db", "ri"].includes(item)) || format;
@@ -38,6 +43,7 @@ export function parseTouchstone(text, filename = "measurement.s2p") {
   }
 
   if (parameter !== "s") throw new Error("Only S-parameter Touchstone data is supported.");
+  if (!optionLineSeen) warnings.push("No option line was present; GHz S MA R 50 defaults were applied.");
   const width = 1 + ports * ports * 2;
   if (numericLines.length < width || numericLines.length % width !== 0 || numericLines.some(Number.isNaN)) {
     throw new Error("The Touchstone numeric data is incomplete or malformed.");
@@ -46,6 +52,7 @@ export function parseTouchstone(text, filename = "measurement.s2p") {
   const points = [];
   for (let offset = 0; offset < numericLines.length; offset += width) {
     const frequencyHz = numericLines[offset] * frequencyScale[unit];
+    if (!Number.isFinite(frequencyHz) || frequencyHz < 0) throw new Error("Every frequency must be a finite, non-negative number.");
     const values = numericLines.slice(offset + 1, offset + width);
     const point = { frequencyHz };
     if (ports === 1) {
@@ -60,10 +67,19 @@ export function parseTouchstone(text, filename = "measurement.s2p") {
   }
 
   points.sort((a, b) => a.frequencyHz - b.frequencyHz);
-  return { filename, ports, format, unit, points };
+  const uniquePoints = [];
+  for (const point of points) {
+    if (uniquePoints.at(-1)?.frequencyHz === point.frequencyHz) {
+      uniquePoints[uniquePoints.length - 1] = point;
+      if (!warnings.includes("Duplicate frequency rows were found; the last row at each frequency was kept.")) warnings.push("Duplicate frequency rows were found; the last row at each frequency was kept.");
+    } else uniquePoints.push(point);
+  }
+  return { filename, ports, format, unit, points: uniquePoints, warnings };
 }
 
 export function evaluateLimit(measurement, parameter, startHz, stopHz, operator, thresholdDb) {
+  if (!Number.isFinite(startHz) || !Number.isFinite(stopHz) || startHz > stopHz) return { status: "INVALID RULE", worst: null, worstFrequencyHz: null, count: 0 };
+  if (!Number.isFinite(thresholdDb) || !["min", "max"].includes(operator)) return { status: "INVALID RULE", worst: null, worstFrequencyHz: null, count: 0 };
   const selected = measurement.points.filter((point) => point.frequencyHz >= startHz && point.frequencyHz <= stopHz && Number.isFinite(point[parameter]));
   if (!selected.length) return { status: "NO DATA", worst: null, worstFrequencyHz: null, count: 0 };
   const worstPoint = selected.reduce((worst, point) => operator === "max"
