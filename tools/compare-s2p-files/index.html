@@ -1,1 +1,79 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="description" content="Compare multiple S2P Touchstone files and golden RF measurements in one local browser plot."><title>Compare Multiple S2P Files — BenchReport</title><link rel="stylesheet" href="../../product.css"><link rel="canonical" href="https://edwarddeakin06-maker.github.io/benchreport/tools/compare-s2p-files/"></head><body><header class="site-header"><a href="../../">BenchReport</a><nav><a href="../../guide/">Guide</a><a href="../../formats/">Formats</a></nav></header><main class="document"><p class="eyebrow">S-parameter comparison</p><h1>Compare S2P measurements against a golden unit.</h1><p>Overlay multiple two-port Touchstone files, rename and recolour traces, hide outliers, and emphasise a reference measurement. BenchReport keeps source measurements inside your browser.</p><div class="tool-cta"><div><strong>Start with three synthetic filters</strong><p>Two pass and one intentionally fails.</p></div><a class="button" href="../../">Compare S2P files</a></div><h2>Apply the same limits to every unit</h2><p>Create independent rules for passband insertion loss, input return loss, or stopband rejection. The result matrix reports the worst value and exact sampled frequency for every measurement.</p><h2>Keep the comparison reproducible</h2><p>Save rule templates for repeated DUT families or download a portable <code>.brp</code> project containing the complete analysis state.</p></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="Learn how to compare multiple S2P Touchstone files, use a golden reference and identify failed RF limits. Try the complete workflow locally in your browser.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How to compare S2P files and identify failed RF limits">
+  <meta property="og:description" content="A practical local workflow for overlaying S2P measurements, applying an RF acceptance limit and finding the worst-case frequency.">
+  <meta property="og:image" content="https://edwarddeakin06-maker.github.io/benchreport/assets/benchreport-workflow.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>How to Compare S2P Files and Find Failed RF Limits — BenchReport</title>
+  <link rel="stylesheet" href="../../product.css">
+  <link rel="icon" href="../../assets/benchreport-icon.svg">
+  <link rel="canonical" href="https://edwarddeakin06-maker.github.io/benchreport/tools/compare-s2p-files/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to compare S2P files and identify a failed RF limit",
+    "description": "Compare two-port Touchstone measurements against a golden unit and find the exact frequency responsible for a failed limit.",
+    "totalTime": "PT2M",
+    "step": [
+      {"@type": "HowToStep", "name": "Load the S2P files", "text": "Open the golden measurement and the units being evaluated."},
+      {"@type": "HowToStep", "name": "Choose the trace", "text": "Select S11, S21, S12 or S22 for the comparison."},
+      {"@type": "HowToStep", "name": "Define the acceptance limit", "text": "Set the frequency band, minimum or maximum operator, and threshold."},
+      {"@type": "HowToStep", "name": "Review the worst case", "text": "Inspect each measurement's status, worst value and exact sampled frequency."},
+      {"@type": "HowToStep", "name": "Create the report", "text": "Add test context and print or save the assembled report as a PDF."}
+    ]
+  }
+  </script>
+  <style>
+    .article-image{display:block;width:100%;margin:30px 0 8px;border:1px solid #20303b;border-radius:14px}.caption{font-size:12px!important;color:#71828d!important}.steps{counter-reset:workflow;display:grid;gap:12px;margin:24px 0}.steps article{counter-increment:workflow;border:1px solid #20303b;border-radius:12px;background:#0d1921;padding:17px 18px 17px 58px;position:relative}.steps article::before{content:counter(workflow);position:absolute;left:18px;top:18px;display:grid;place-items:center;width:25px;height:25px;border:1px solid #2d6d59;border-radius:50%;color:#36e0a1;font-size:11px;font-weight:800}.steps h3{font-size:15px;margin:0 0 4px}.steps p{font-size:13px;margin:0}.faq details{padding:14px 0;border-bottom:1px solid #20303b}.faq summary{cursor:pointer;font-weight:750}.faq p{margin-bottom:2px}.example-result td:last-child{color:#ff6b7a;font-weight:800}
+  </style>
+</head>
+<body>
+  <header class="site-header"><a href="../../">BenchReport</a><nav><a href="../../guide/">Guide</a><a href="../../formats/">Formats</a><a href="../../pro/">Pro</a></nav></header>
+  <main class="document">
+    <p class="eyebrow">Practical S-parameter workflow</p>
+    <h1>How to compare S2P files and identify failed RF limits.</h1>
+    <p>An <code>.s2p</code> file records how a two-port RF device reflects and transmits signals across frequency. Comparing several files helps show whether production units follow a golden reference—and whether each unit meets a defined acceptance limit.</p>
+
+    <div class="tool-cta"><div><strong>Try the complete example in 60 seconds</strong><p>Three synthetic filters, one deliberate failure, and no file upload.</p></div><a class="button" href="../../#startDemo">Start guided comparison</a></div>
+
+    <h2>The comparison workflow</h2>
+    <div class="steps">
+      <article><h3>Load the golden unit and measured units</h3><p>Open the reference first, followed by the S2P files being evaluated. BenchReport overlays them on the same frequency axis.</p></article>
+      <article><h3>Select the relevant S-parameter</h3><p>Use S21 for forward transmission or insertion loss, S11 for input reflection or return loss, and S12/S22 when the reverse path or output match matters.</p></article>
+      <article><h3>Define the acceptance band</h3><p>Choose a start frequency, stop frequency, minimum or maximum rule, and threshold. The same rule is applied independently to every visible measurement.</p></article>
+      <article><h3>Inspect the worst value and frequency</h3><p>A simple PASS or FAIL is not enough for diagnosis. Record the limiting value and the exact sampled frequency that caused it.</p></article>
+      <article><h3>Preserve the evidence</h3><p>Carry the comparison chart, rule result, measurement identity and test context into a printable report for review.</p></article>
+    </div>
+
+    <img class="article-image" src="../../assets/benchreport-workflow.png" alt="Three synthetic S2P filter measurements compared in BenchReport with an S21 acceptance failure">
+    <p class="caption">BenchReport comparing a golden filter with two units using synthetic S2P measurements.</p>
+
+    <h2>Worked example: passband insertion loss</h2>
+    <p>The included sample applies an S21 minimum of −2.00 dB from 900 MHz to 1.1 GHz. Two measurements remain above the threshold. The deliberately degraded unit reaches −2.35 dB at 1.1 GHz and therefore fails.</p>
+    <table class="example-result">
+      <thead><tr><th>Measurement</th><th>Worst S21</th><th>Frequency</th><th>Result</th></tr></thead>
+      <tbody><tr><td>Golden reference</td><td>−1.20 dB</td><td>1.100 GHz</td><td style="color:#36e0a1">PASS</td></tr><tr><td>Unit 017</td><td>−1.45 dB</td><td>1.100 GHz</td><td style="color:#36e0a1">PASS</td></tr><tr><td>Unit 042</td><td>−2.35 dB</td><td>1.100 GHz</td><td>FAIL</td></tr></tbody>
+    </table>
+
+    <h2>Why compare locally?</h2>
+    <p>Touchstone files can reveal device performance, design choices and production variation. BenchReport is a static browser application: parsing, plotting and limit evaluation happen on the device rather than sending measurement contents to a remote analysis service.</p>
+
+    <h2>Common questions</h2>
+    <div class="faq">
+      <details><summary>Which S2P formats are supported?</summary><p>Common Touchstone 1.0-style DB/angle, magnitude/angle and real/imaginary data with Hz, kHz, MHz or GHz frequency units.</p></details>
+      <details><summary>Can I compare S1P files as well?</summary><p>Yes. S1P measurements can be viewed and evaluated using their S11 trace.</p></details>
+      <details><summary>Does BenchReport interpolate limit crossings?</summary><p>No. Limits are evaluated at the frequency samples present in the source file. The reported worst frequency is an exact sampled frequency.</p></details>
+      <details><summary>Is the browser version free?</summary><p>Yes. The free edition supports three measurements and one acceptance rule. Pro adds unlimited measurements and rules, projects, templates and branded reports.</p></details>
+    </div>
+
+    <div class="callout"><strong>Engineering limitation</strong><p>This workflow supports analysis and documentation; it does not replace a calibrated instrument, an approved test procedure or competent engineering review.</p></div>
+    <div class="tool-cta"><div><strong>Compare the synthetic files now</strong><p>No account, installation or measurement upload required.</p></div><a class="button" href="../../#startDemo">Open BenchReport Free</a></div>
+  </main>
+</body>
+</html>

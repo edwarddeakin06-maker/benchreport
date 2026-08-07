@@ -47,3 +47,13 @@ test("Landing page explains S-parameters in plain English", async () => {
   assert.match(html, /New to S-parameters\?/);
   assert.match(html, /transmitted through or reflected by a component at different frequencies/);
 });
+
+test("S2P comparison guide provides a useful search workflow", async () => {
+  const html = await read("tools/compare-s2p-files/index.html");
+  assert.match(html, /How to compare S2P files and identify failed RF limits/);
+  assert.match(html, /"@type": "HowTo"/);
+  assert.match(html, /Worst S21/);
+  assert.match(html, /−2\.35 dB/);
+  assert.match(html, /href="\.\.\/\.\.\/#startDemo"/);
+  assert.match(html, /does not replace a calibrated instrument/);
+});
