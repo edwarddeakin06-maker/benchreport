@@ -4,7 +4,9 @@
 
 **Local-first Touchstone comparison, RF acceptance analysis, and measurement reporting.**
 
-[Open the live application](https://edwarddeakin06-maker.github.io/benchreport/) · [Read the user guide](https://edwarddeakin06-maker.github.io/benchreport/guide/) · [Check supported formats](https://edwarddeakin06-maker.github.io/benchreport/formats/)
+[Open the free application](https://edwarddeakin06-maker.github.io/benchreport/) · [Get BenchReport Pro](https://edwarddeakin06-maker.github.io/benchreport/pro/) · [Read the user guide](https://edwarddeakin06-maker.github.io/benchreport/guide/) · [Check supported formats](https://edwarddeakin06-maker.github.io/benchreport/formats/)
+
+![BenchReport Pro product preview](assets/benchreport-pro-cover.png)
 
 BenchReport loads one-port and two-port Touchstone measurements directly in the browser. It compares traces, applies reusable acceptance rules, calculates RF statistics, and produces a structured report without uploading source measurement files.
 
@@ -24,7 +26,7 @@ BenchReport loads one-port and two-port Touchstone measurements directly in the 
 
 The public browser edition remains free and processes up to three measurements with one acceptance rule. [BenchReport Pro](https://edwarddeakin06-maker.github.io/benchreport/pro/) is the local Windows edition and adds unlimited measurements and rules, reusable templates, portable projects, company branding, and complete multi-rule reports.
 
-The launch price planned for BenchReport Pro is **£29 as a one-time licence**. The installer is deliberately not attached to the public repository; automatic paid delivery will be connected through the selected merchant platform.
+BenchReport Pro is available for **£29 as a one-time licence**, with automatic installer delivery through Gumroad. The paid installer is deliberately not attached to the public repository.
 
 ## Quick evaluation
 
