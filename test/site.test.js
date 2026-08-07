@@ -41,3 +41,9 @@ test("Free edition offers a self-contained guided demo", async () => {
   assert.match(app, /One unit fails the passband limit/);
   assert.match(app, /window\.location\.href = "pro\/"/);
 });
+
+test("Landing page explains S-parameters in plain English", async () => {
+  const html = await read("index.html");
+  assert.match(html, /New to S-parameters\?/);
+  assert.match(html, /transmitted through or reflected by a component at different frequencies/);
+});
