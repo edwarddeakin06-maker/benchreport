@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Compare Touchstone measurements, apply limits, and create clean RF reports locally." />
+  <title>BenchReport — RF measurement reports without spreadsheet work</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar no-print">
+    <a class="brand" href="#"><span class="brand-mark">BR</span><span>BenchReport</span><small>Local RF reporting</small></a>
+    <div class="privacy-pill">● Your files stay on this device</div>
+  </header>
+
+  <main>
+    <section class="hero no-print">
+      <div>
+        <p class="eyebrow">Touchstone → comparison → report</p>
+        <h1>Turn bench data into a report worth sending.</h1>
+        <p class="lead">Overlay S-parameter measurements, apply a band limit, and export a clean PDF—without uploading sensitive data or rebuilding charts in Excel.</p>
+      </div>
+      <div class="hero-stat"><strong id="fileCount">0</strong><span>measurements loaded</span></div>
+    </section>
+
+    <section class="workspace no-print">
+      <aside class="panel controls">
+        <div class="step"><span>01</span><div><h2>Measurements</h2><p>Touchstone 1-port or 2-port</p></div></div>
+        <label id="dropZone" class="drop-zone">
+          <input id="fileInput" type="file" accept=".s1p,.s2p" multiple />
+          <strong>Drop .s1p or .s2p files</strong>
+          <span>or browse from this computer</span>
+        </label>
+        <button id="loadSamples" class="secondary-button" type="button">Load synthetic filter samples</button>
+        <div id="fileList" class="file-list"></div>
+
+        <div class="step divider"><span>02</span><div><h2>Trace and limit</h2><p>Apply one acceptance rule</p></div></div>
+        <div class="form-grid">
+          <label>Parameter<select id="parameter"><option>S11</option><option selected>S21</option><option>S12</option><option>S22</option></select></label>
+          <label>Rule<select id="operator"><option value="min" selected>At least</option><option value="max">At most</option></select></label>
+          <label>Start (MHz)<input id="startMHz" type="number" value="900" step="1" /></label>
+          <label>Stop (MHz)<input id="stopMHz" type="number" value="1100" step="1" /></label>
+          <label class="full">Threshold (dB)<input id="threshold" type="number" value="-2" step="0.1" /></label>
+        </div>
+
+        <div class="step divider"><span>03</span><div><h2>Report details</h2><p>Used in the PDF header</p></div></div>
+        <div class="form-grid">
+          <label class="full">Report title<input id="reportTitle" value="RF Filter Acceptance Report" /></label>
+          <label>DUT / part<input id="dut" value="BR-Demo-01" /></label>
+          <label>Engineer<input id="engineer" placeholder="Name or initials" /></label>
+          <label class="full">Notes<textarea id="notes" rows="3" placeholder="Fixture, calibration, temperature, or test context"></textarea></label>
+        </div>
+        <button id="printReport" class="primary-button" type="button">Export / print report</button>
+        <p class="button-note">Choose “Save as PDF” in the print dialog.</p>
+      </aside>
+
+      <section class="results">
+        <div id="emptyState" class="empty-card"><div class="scope-icon">⌁</div><h2>Load measurements to begin</h2><p>Try the synthetic samples to see comparison, limits and report output immediately.</p></div>
+        <div id="analysis" hidden>
+          <div class="summary-row">
+            <div><p class="eyebrow">Live analysis</p><h2 id="chartTitle">S21 comparison</h2></div>
+            <div id="overallStatus" class="status">—</div>
+          </div>
+          <div class="chart-card"><canvas id="chart" width="1000" height="540" aria-label="S-parameter comparison chart"></canvas></div>
+          <div id="resultCards" class="result-cards"></div>
+          <div class="marker-card"><div><span class="label">Active rule</span><strong id="ruleSummary"></strong></div><div><span class="label">Band</span><strong id="bandSummary"></strong></div></div>
+        </div>
+      </section>
+    </section>
+
+    <section id="report" class="report">
+      <div class="report-head"><div><p class="eyebrow">BenchReport measurement record</p><h1 id="reportTitleOut">RF Filter Acceptance Report</h1></div><div id="reportStatus" class="report-status">—</div></div>
+      <div class="report-meta"><div><span>DUT / part</span><strong id="dutOut">BR-Demo-01</strong></div><div><span>Engineer</span><strong id="engineerOut">—</strong></div><div><span>Generated</span><strong id="dateOut">—</strong></div><div><span>Data handling</span><strong>Processed locally</strong></div></div>
+      <div class="report-chart"><img id="reportChart" alt="Measurement comparison chart" /></div>
+      <h2>Acceptance results</h2>
+      <table><thead><tr><th>Measurement</th><th>Trace</th><th>Band</th><th>Requirement</th><th>Worst value</th><th>Result</th></tr></thead><tbody id="reportRows"></tbody></table>
+      <div class="report-notes"><h2>Test notes</h2><p id="notesOut">No notes supplied.</p></div>
+      <footer>Generated by BenchReport prototype · Results should be reviewed by a competent engineer.</footer>
+    </section>
+  </main>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
