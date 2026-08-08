@@ -126,6 +126,15 @@ test("Release notes publish exact buyer-facing build information", async () => {
   assert.match(html, /href="\.\.\/buy\/"/);
 });
 
+test("Not-found page recovers visitors without entering the search index", async () => {
+  const html = await read("404.html");
+  assert.match(html, /name="robots" content="noindex"/);
+  assert.match(html, /href="\/benchreport\/"/);
+  assert.match(html, /href="\/benchreport\/resources\/"/);
+  assert.match(html, /href="\/benchreport\/pro\/"/);
+  assert.match(html, /static\.cloudflareinsights\.com\/beacon\.min\.js/);
+});
+
 test("S2P comparison guide provides a useful search workflow", async () => {
   const html = await read("tools/compare-s2p-files/index.html");
   assert.match(html, /How to compare S2P files and identify failed RF limits/);
