@@ -135,6 +135,16 @@ test("Not-found page recovers visitors without entering the search index", async
   assert.match(html, /static\.cloudflareinsights\.com\/beacon\.min\.js/);
 });
 
+test("IndexNow ownership key and submission script stay consistent", async () => {
+  const [keyFile, script] = await Promise.all([
+    read("8c400ac253534ed3ae8f372911f18c83.txt"),
+    read("scripts/submit-indexnow.mjs")
+  ]);
+  assert.equal(keyFile.trim(), "8c400ac253534ed3ae8f372911f18c83");
+  assert.match(script, /keyLocation: `\$\{siteRoot\}\$\{key\}\.txt`/);
+  assert.match(script, /https:\/\/api\.indexnow\.org\/indexnow/);
+});
+
 test("S2P comparison guide provides a useful search workflow", async () => {
   const html = await read("tools/compare-s2p-files/index.html");
   assert.match(html, /How to compare S2P files and identify failed RF limits/);

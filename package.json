@@ -10,7 +10,8 @@
     "start": "node server.js",
     "desktop": "electron .",
     "dist:win": "electron-builder --win nsis",
-    "test": "node --test"
+    "test": "node --test",
+    "indexnow": "node scripts/submit-indexnow.mjs"
   },
   "build": {
     "appId": "com.benchreport.pro",
