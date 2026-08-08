@@ -1,5 +1,5 @@
-const CACHE = "benchreport-0.4.11";
-const CORE = ["./", "./index.html", "./styles.css?v=0.4.3", "./product.css", "./src/app.js?v=0.4.1", "./src/touchstone.js", "./manifest.webmanifest", "./assets/benchreport-icon.svg", "./assets/benchreport-workflow.png", "./samples/filter-golden.s2p", "./samples/filter-unit-017.s2p", "./samples/filter-unit-042-fail.s2p", "./guide/", "./formats/", "./privacy/", "./support/", "./pro/", "./buy/", "./tools/touchstone-viewer/", "./tools/compare-s2p-files/", "./tools/vna-report-generator/", "./guides/s-parameter-pass-fail-limits/", "./offline.html"];
+const CACHE = "benchreport-0.4.12";
+const CORE = ["./", "./index.html", "./styles.css?v=0.4.3", "./product.css", "./src/app.js?v=0.4.1", "./src/touchstone.js", "./manifest.webmanifest", "./assets/benchreport-icon.svg", "./assets/benchreport-workflow.png", "./samples/filter-golden.s2p", "./samples/filter-unit-017.s2p", "./samples/filter-unit-042-fail.s2p", "./guide/", "./formats/", "./privacy/", "./support/", "./pro/", "./buy/", "./resources/", "./tools/touchstone-viewer/", "./tools/compare-s2p-files/", "./tools/vna-report-generator/", "./guides/s-parameter-pass-fail-limits/", "./offline.html"];
 
 self.addEventListener("install", (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(CORE)).then(() => self.skipWaiting())));
 self.addEventListener("activate", (event) => event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)))).then(() => self.clients.claim())));

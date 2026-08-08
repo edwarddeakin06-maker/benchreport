@@ -107,6 +107,15 @@ test("S-parameter limit guide explains dB comparisons safely", async () => {
   assert.match(html, /href="\.\.\/\.\.\/#startDemo"/);
 });
 
+test("Resources hub routes each major visitor intent", async () => {
+  const html = await read("resources/index.html");
+  for (const href of ["../tools/touchstone-viewer/", "../tools/vna-report-generator/", "../tools/compare-s2p-files/", "../guides/s-parameter-pass-fail-limits/", "../formats/", "../guide/"]) {
+    assert.match(html, new RegExp(`href="${href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
+  }
+  assert.match(html, /href="\.\.\/#startDemo"/);
+  assert.match(html, /static\.cloudflareinsights\.com\/beacon\.min\.js/);
+});
+
 test("S2P comparison guide provides a useful search workflow", async () => {
   const html = await read("tools/compare-s2p-files/index.html");
   assert.match(html, /How to compare S2P files and identify failed RF limits/);
