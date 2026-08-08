@@ -96,6 +96,17 @@ test("Sitemap publishes valid modification dates", async () => {
   assert.equal((sitemap.match(/<url>/g) || []).length, (sitemap.match(/<lastmod>2026-08-08<\/lastmod>/g) || []).length);
 });
 
+test("S-parameter limit guide explains dB comparisons safely", async () => {
+  const html = await read("guides/s-parameter-pass-fail-limits/index.html");
+  assert.match(html, /S21 ≥ −2 dB/);
+  assert.match(html, /S11 ≤ −10 dB/);
+  assert.match(html, /Return loss greater than 10 dB/);
+  assert.match(html, /Confirm the quantity and convention first/);
+  assert.match(html, /"@type":"Article"/);
+  assert.match(html, /"@type":"FAQPage"/);
+  assert.match(html, /href="\.\.\/\.\.\/#startDemo"/);
+});
+
 test("S2P comparison guide provides a useful search workflow", async () => {
   const html = await read("tools/compare-s2p-files/index.html");
   assert.match(html, /How to compare S2P files and identify failed RF limits/);

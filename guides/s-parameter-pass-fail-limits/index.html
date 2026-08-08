@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width">
+  <meta name="description" content="Learn how to define pass/fail limits for S11 and S21 measurements, including passband, return-loss and stopband examples with correct dB comparisons.">
+  <meta property="og:type" content="article"><meta property="og:title" content="How to Set S-Parameter Pass/Fail Limits">
+  <meta property="og:description" content="Practical S11 and S21 acceptance-rule examples, sign conventions and common RF limit mistakes.">
+  <meta property="og:url" content="https://edwarddeakin06-maker.github.io/benchreport/guides/s-parameter-pass-fail-limits/">
+  <meta property="og:image" content="https://edwarddeakin06-maker.github.io/benchreport/assets/benchreport-workflow.png"><meta name="twitter:card" content="summary_large_image">
+  <title>How to Set S-Parameter Pass/Fail Limits — BenchReport</title>
+  <link rel="stylesheet" href="../../product.css"><link rel="icon" href="../../assets/benchreport-icon.svg"><link rel="canonical" href="https://edwarddeakin06-maker.github.io/benchreport/guides/s-parameter-pass-fail-limits/">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","headline":"How to Set S-Parameter Pass/Fail Limits","description":"A practical guide to frequency-bounded S11 and S21 acceptance rules.","datePublished":"2026-08-08","dateModified":"2026-08-08","author":{"@type":"Organization","name":"BenchReport"},"mainEntityOfPage":"https://edwarddeakin06-maker.github.io/benchreport/guides/s-parameter-pass-fail-limits/","image":"https://edwarddeakin06-maker.github.io/benchreport/assets/benchreport-workflow.png"}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Should an S21 passband rule use at least or at most?","acceptedAnswer":{"@type":"Answer","text":"When S21 is displayed as negative magnitude in dB, a passband insertion-loss rule commonly uses at least. For example, S21 must be at least -2 dB."}},
+    {"@type":"Question","name":"Should an S11 rule use at least or at most?","acceptedAnswer":{"@type":"Answer","text":"For S11 magnitude displayed in negative dB, a requirement such as S11 below -10 dB uses at most -10 dB. Confirm that the source specification is not instead expressing positive return loss."}},
+    {"@type":"Question","name":"Does a limit need a frequency band?","acceptedAnswer":{"@type":"Answer","text":"Yes. RF requirements normally apply over a defined band, and measurements outside that band should not determine the result."}}
+  ]}
+  </script>
+  <style>
+    .rule-examples{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:25px 0}.rule-examples article{border:1px solid #20303b;background:#0d1921;border-radius:12px;padding:18px}.rule-examples h3{font-size:16px;margin:0 0 7px}.rule-examples p{font-size:13px;margin:0}.rule-code{display:block;margin-top:13px;padding:10px;border-radius:8px;background:#071118;color:#36e0a1;font:700 12px ui-monospace,monospace}.warning{border-left:3px solid #ffb454;padding:4px 0 4px 18px;margin:28px 0}.checklist li{margin-bottom:8px}.faq details{border-bottom:1px solid #20303b;padding:14px 0}.faq summary{cursor:pointer;font-weight:750}.faq p{margin-bottom:4px}@media(max-width:700px){.rule-examples{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="site-header"><a href="../../">BenchReport</a><nav><a href="../../tools/touchstone-viewer/">Touchstone viewer</a><a href="../../tools/compare-s2p-files/">S2P comparison</a><a href="../../formats/">Formats</a></nav></header>
+  <main class="document">
+    <p class="eyebrow">Practical RF limits</p>
+    <h1>How to set S-parameter pass/fail limits.</h1>
+    <p>An RF acceptance rule needs four things: the S-parameter, a start frequency, a stop frequency, and the direction of comparison against a threshold. The sign of a dB value makes that final choice easy to reverse accidentally.</p>
+    <div class="tool-cta"><div><strong>Test a limit with synthetic measurements</strong><p>BenchReport includes a passband example with one deliberately failed unit.</p></div><a class="button" href="../../#startDemo">Open the free limit checker</a></div>
+
+    <h2>Three common S-parameter rules</h2>
+    <div class="rule-examples">
+      <article><h3>S21 passband</h3><p>Keep forward transmission above the lowest acceptable level throughout the operating band.</p><span class="rule-code">S21 ≥ −2 dB<br>900–1100 MHz</span></article>
+      <article><h3>S21 stopband</h3><p>Keep unwanted forward transmission below the maximum permitted leakage level.</p><span class="rule-code">S21 ≤ −40 dB<br>1500–2000 MHz</span></article>
+      <article><h3>S11 input match</h3><p>When using negative S11 magnitude in dB, require reflection to stay below the stated level.</p><span class="rule-code">S11 ≤ −10 dB<br>900–1100 MHz</span></article>
+    </div>
+
+    <h2>Why negative dB comparisons cause mistakes</h2>
+    <p>With negative values, −20 dB is numerically less than −10 dB. For S11 magnitude in dB, −20 dB represents a smaller reflected wave than −10 dB and is normally the better match. That is why an S11 magnitude requirement written as “below −10 dB” becomes an <strong>at most −10 dB</strong> comparison.</p>
+    <p>Insertion loss is sometimes specified as a positive loss value even though a viewer plots S21 magnitude as a negative value. A specification saying “insertion loss no more than 2 dB” commonly corresponds to plotted S21 being <strong>at least −2 dB</strong>.</p>
+    <div class="warning"><strong>Confirm the quantity and convention first.</strong><p>“Return loss greater than 10 dB” and “S11 below −10 dB” can express the same physical intent using opposite signs. Never copy a threshold without checking what the source document defines.</p></div>
+
+    <h2>Apply limits only where they are valid</h2>
+    <p>A pass/fail result should use samples inside the specified frequency band. A poor value outside the operating band should not fail a passband rule, while a gap with no measurement samples should not be treated as an automatic pass. BenchReport reports “no data” when a valid rule band contains no samples.</p>
+    <table><thead><tr><th>Rule type</th><th>Trace</th><th>Comparison</th><th>Typical interpretation</th></tr></thead><tbody><tr><td>Passband transmission</td><td>S21</td><td>At least</td><td>Do not fall below the minimum transmitted level</td></tr><tr><td>Stopband rejection</td><td>S21</td><td>At most</td><td>Do not exceed the maximum leakage level</td></tr><tr><td>Input reflection</td><td>S11</td><td>At most</td><td>Keep negative reflection magnitude below the limit</td></tr><tr><td>Output reflection</td><td>S22</td><td>At most</td><td>Keep negative reflection magnitude below the limit</td></tr></tbody></table>
+
+    <h2>Acceptance-rule checklist</h2>
+    <ul class="checklist"><li>Confirm whether the requirement describes S-parameter magnitude, insertion loss, return loss, VSWR, or another quantity.</li><li>Use the same dB sign convention as the displayed trace.</li><li>Enter the applicable start and stop frequencies, including the intended endpoints.</li><li>Check that measurement samples exist throughout the region needed by the approved process.</li><li>Inspect the worst value and its frequency instead of relying only on the pass/fail badge.</li><li>Retain the source specification and measurement context with the final report.</li></ul>
+
+    <h2>Run the same checks across a batch</h2>
+    <p>The free browser edition evaluates one rule across up to three measurements. <a href="../../pro/">BenchReport Pro</a> adds unlimited measurements and rules plus reusable acceptance templates, so the same matrix can be applied again without re-entering it.</p>
+
+    <h2>S-parameter limit questions</h2>
+    <div class="faq"><details><summary>Should an S21 passband rule use “at least”?</summary><p>Usually, when the plot shows S21 magnitude as a negative dB value. A limit of at least −2 dB rejects samples that fall below −2 dB.</p></details><details><summary>Why does S11 often use “at most”?</summary><p>For negative S11 magnitude, more-negative values represent lower reflection. “S11 below −10 dB” therefore uses at most −10 dB.</p></details><details><summary>Does BenchReport interpolate at a band boundary?</summary><p>No. The current calculation uses available measurement samples within the selected band. Review sampling density against your engineering process.</p></details><details><summary>Does passing BenchReport prove compliance?</summary><p>No. It documents calculations from supplied data. Calibration, uncertainty, measurement validity and formal approval remain the user’s responsibility.</p></details></div>
+  </main>
+  <!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"aa14bc2992f14d8f916c7cb20798783c"}'></script><!-- End Cloudflare Web Analytics -->
+</body></html>
