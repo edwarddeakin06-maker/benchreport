@@ -1,4 +1,4 @@
-const CACHE = "benchreport-0.4.13";
+const CACHE = "benchreport-0.4.14";
 const CORE = ["./", "./index.html", "./styles.css?v=0.4.3", "./product.css", "./src/app.js?v=0.4.1", "./src/touchstone.js", "./manifest.webmanifest", "./assets/benchreport-icon.svg", "./assets/benchreport-workflow.png", "./samples/filter-golden.s2p", "./samples/filter-unit-017.s2p", "./samples/filter-unit-042-fail.s2p", "./guide/", "./formats/", "./privacy/", "./support/", "./pro/", "./buy/", "./resources/", "./release-notes/", "./tools/touchstone-viewer/", "./tools/compare-s2p-files/", "./tools/vna-report-generator/", "./guides/s-parameter-pass-fail-limits/", "./offline.html"];
 
 self.addEventListener("install", (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(CORE)).then(() => self.skipWaiting())));

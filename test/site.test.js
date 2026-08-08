@@ -72,6 +72,21 @@ test("Indexed search pages include privacy-friendly analytics", async () => {
   }
 });
 
+test("Every indexed page publishes complete search and sharing metadata", async () => {
+  const sitemap = await read("sitemap.xml");
+  const pages = [...sitemap.matchAll(/benchreport\/(.*?)<\/loc>/g)]
+    .map((match) => match[1])
+    .map((path) => path ? `${path}index.html` : "index.html");
+  for (const page of pages) {
+    const html = await read(page);
+    assert.equal((html.match(/<title>/g) || []).length, 1, `${page} needs one title`);
+    assert.equal((html.match(/<meta name="description"/g) || []).length, 1, `${page} needs one description`);
+    assert.equal((html.match(/rel="canonical"/g) || []).length, 1, `${page} needs one canonical URL`);
+    assert.equal((html.match(/property="og:title"/g) || []).length, 1, `${page} needs one social title`);
+    assert.equal((html.match(/property="og:image"/g) || []).length, 1, `${page} needs one social image`);
+  }
+});
+
 test("Touchstone viewer page is a complete search landing page", async () => {
   const html = await read("tools/touchstone-viewer/index.html");
   assert.match(html, /"@type": "WebApplication"/);
