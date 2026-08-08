@@ -53,6 +53,8 @@ test("Free edition offers a self-contained guided demo", async () => {
   assert.match(app, /await loadSamples\(\)/);
   assert.match(app, /One unit fails the passband limit/);
   assert.match(app, /window\.location\.href = "pro\/"/);
+  assert.match(app, /window\.location\.hash === "#startDemo"/);
+  assert.match(app, /void startGuidedDemo\(\)/);
 });
 
 test("Landing page explains S-parameters in plain English", async () => {
@@ -158,6 +160,7 @@ test("IndexNow ownership key and submission script stay consistent", async () =>
   assert.equal(keyFile.trim(), "8c400ac253534ed3ae8f372911f18c83");
   assert.match(script, /keyLocation: `\$\{siteRoot\}\$\{key\}\.txt`/);
   assert.match(script, /https:\/\/api\.indexnow\.org\/indexnow/);
+  assert.match(script, /process\.argv\.slice\(2\)/);
 });
 
 test("S2P comparison guide provides a useful search workflow", async () => {

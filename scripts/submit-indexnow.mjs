@@ -3,7 +3,10 @@ import { readFile } from "node:fs/promises";
 const key = "8c400ac253534ed3ae8f372911f18c83";
 const siteRoot = "https://edwarddeakin06-maker.github.io/benchreport/";
 const sitemap = await readFile(new URL("../sitemap.xml", import.meta.url), "utf8");
-const urlList = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
+const requestedUrls = process.argv.slice(2);
+const urlList = requestedUrls.length
+  ? requestedUrls
+  : [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 
 if (!urlList.length || urlList.some((url) => !url.startsWith(siteRoot))) {
   throw new Error("Sitemap contains no URLs or a URL outside the BenchReport site root.");

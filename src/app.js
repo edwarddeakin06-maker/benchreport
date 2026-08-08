@@ -216,3 +216,8 @@ $("editionBadge").textContent = isPro ? "PRO" : "FREE";
 if (!isPro && "serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));
 
 render();
+
+if (!isPro && window.location.hash === "#startDemo") {
+  history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+  void startGuidedDemo();
+}
