@@ -61,6 +61,26 @@ test("Landing page explains S-parameters in plain English", async () => {
   assert.match(html, /transmitted through or reflected by a component at different frequencies/);
 });
 
+test("Indexed search pages include privacy-friendly analytics", async () => {
+  const sitemap = await read("sitemap.xml");
+  const paths = [...sitemap.matchAll(/benchreport\/(.*?)<\/loc>/g)]
+    .map((match) => match[1])
+    .map((path) => path ? `${path}index.html` : "index.html");
+  for (const path of paths) {
+    const html = await read(path);
+    assert.match(html, /static\.cloudflareinsights\.com\/beacon\.min\.js/, `${path} should be measurable`);
+  }
+});
+
+test("Touchstone viewer page is a complete search landing page", async () => {
+  const html = await read("tools/touchstone-viewer/index.html");
+  assert.match(html, /"@type": "WebApplication"/);
+  assert.match(html, /"@type": "FAQPage"/);
+  assert.match(html, /What the free Touchstone viewer does/);
+  assert.match(html, /How to inspect an S1P or S2P file/);
+  assert.match(html, /href="\.\.\/\.\.\/pro\/"/);
+});
+
 test("S2P comparison guide provides a useful search workflow", async () => {
   const html = await read("tools/compare-s2p-files/index.html");
   assert.match(html, /How to compare S2P files and identify failed RF limits/);

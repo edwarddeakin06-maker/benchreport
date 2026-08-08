@@ -1,1 +1,86 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="description" content="Free local Touchstone viewer for S1P and S2P files. Plot S11, S21, S12, and S22 without uploading RF measurements."><title>Free Touchstone S1P and S2P Viewer — BenchReport</title><link rel="stylesheet" href="../../product.css"><link rel="canonical" href="https://edwarddeakin06-maker.github.io/benchreport/tools/touchstone-viewer/"></head><body><header class="site-header"><a href="../../">BenchReport</a><nav><a href="../../guide/">Guide</a><a href="../../formats/">Formats</a></nav></header><main class="document"><p class="eyebrow">Free local RF tool</p><h1>View Touchstone files without uploading them.</h1><p>Open common <code>.s1p</code> and <code>.s2p</code> files, display S11, S21, S12, or S22, compare measurements, and inspect extrema. Processing happens locally in your browser.</p><div class="tool-cta"><div><strong>No account. No measurement upload.</strong><p>Use synthetic samples or choose files from your device.</p></div><a class="button" href="../../">Open Touchstone viewer</a></div><h2>Supported representations</h2><p>BenchReport reads DB/angle, magnitude/angle, and real/imaginary S-parameter data with Hz, kHz, MHz, or GHz frequency units.</p><h2>More than a plot</h2><p>Add frequency-band acceptance limits, identify worst-case values, compare against a golden unit, save a project, and create a structured PDF report.</p></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="Open and compare S1P or S2P Touchstone files in a free local browser viewer. Plot S11, S21, S12 and S22 without uploading RF measurements.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Free Touchstone S1P and S2P Viewer">
+  <meta property="og:description" content="Plot, compare and check RF Touchstone measurements locally in your browser. No account or file upload.">
+  <meta property="og:url" content="https://edwarddeakin06-maker.github.io/benchreport/tools/touchstone-viewer/">
+  <meta property="og:image" content="https://edwarddeakin06-maker.github.io/benchreport/assets/benchreport-workflow.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Free Touchstone S1P and S2P Viewer — BenchReport</title>
+  <link rel="stylesheet" href="../../product.css">
+  <link rel="icon" href="../../assets/benchreport-icon.svg">
+  <link rel="canonical" href="https://edwarddeakin06-maker.github.io/benchreport/tools/touchstone-viewer/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "BenchReport Free Touchstone Viewer",
+    "applicationCategory": "EngineeringApplication",
+    "operatingSystem": "Any modern desktop browser",
+    "description": "A local browser viewer for S1P and S2P Touchstone RF measurement files.",
+    "url": "https://edwarddeakin06-maker.github.io/benchreport/tools/touchstone-viewer/",
+    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"},
+    "featureList": ["S1P and S2P parsing", "S11 S21 S12 and S22 plots", "Local file processing", "Measurement comparison", "Frequency-band acceptance limit"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"Are Touchstone files uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. The browser reads and analyses selected measurement files on the device."}},
+      {"@type":"Question","name":"Which Touchstone files are supported?","acceptedAnswer":{"@type":"Answer","text":"BenchReport Free supports common Touchstone 1.0-style S1P and S2P files using DB/angle, magnitude/angle or real/imaginary values."}},
+      {"@type":"Question","name":"Can the viewer compare multiple S2P files?","acceptedAnswer":{"@type":"Answer","text":"Yes. The free viewer can overlay up to three measurements and designate a golden reference trace."}}
+    ]
+  }
+  </script>
+  <style>
+    .feature-grid,.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}.feature-grid article,.steps article{border:1px solid #20303b;background:#0d1921;border-radius:12px;padding:18px}.feature-grid h3,.steps h3{font-size:16px;margin:0 0 6px}.feature-grid p,.steps p{font-size:13px;margin:0}.privacy-note{border-left:3px solid #36e0a1;padding:4px 0 4px 18px;margin:30px 0}.faq details{border-bottom:1px solid #20303b;padding:14px 0}.faq summary{cursor:pointer;font-weight:750}.faq p{margin-bottom:4px}@media(max-width:700px){.feature-grid,.steps{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="site-header"><a href="../../">BenchReport</a><nav><a href="../compare-s2p-files/">S2P guide</a><a href="../../guide/">Guide</a><a href="../../formats/">Formats</a></nav></header>
+  <main class="document">
+    <p class="eyebrow">Free local RF tool</p>
+    <h1>View Touchstone files without uploading them.</h1>
+    <p>Open common <code>.s1p</code> and <code>.s2p</code> files, plot S11, S21, S12 or S22, overlay measurements and inspect worst-case values. Processing happens locally in your browser.</p>
+    <div class="tool-cta"><div><strong>No account. No measurement upload.</strong><p>Use the included synthetic samples or choose files from your device.</p></div><a class="button" href="../../">Open the free viewer</a></div>
+
+    <h2>What the free Touchstone viewer does</h2>
+    <div class="feature-grid">
+      <article><h3>Plot RF traces</h3><p>Switch between S11, S21, S12 and S22 and compare values across frequency.</p></article>
+      <article><h3>Compare three files</h3><p>Overlay a golden unit and two measured units with clear names and colours.</p></article>
+      <article><h3>Check a limit</h3><p>Apply one minimum or maximum dB rule inside a defined frequency band.</p></article>
+    </div>
+
+    <h2>How to inspect an S1P or S2P file</h2>
+    <div class="steps">
+      <article><h3>1 · Choose files</h3><p>Drop up to three local S1P or S2P measurements into the viewer.</p></article>
+      <article><h3>2 · Select a trace</h3><p>Choose the S-parameter and frequency-bounded requirement you need to review.</p></article>
+      <article><h3>3 · Review results</h3><p>Inspect the overlay, extrema, worst frequency and pass/fail result, then print a PDF.</p></article>
+    </div>
+
+    <h2>Supported Touchstone data</h2>
+    <p>BenchReport reads common Touchstone 1.0-style S1P and S2P files using DB/angle, magnitude/angle, or real/imaginary data. Frequency units can be Hz, kHz, MHz, or GHz. See the <a href="../../formats/">complete format and limitation list</a> before relying on a result.</p>
+    <div class="privacy-note"><strong>Your measurement contents stay local.</strong><p>The selected files are parsed in the browser and are not sent to BenchReport or Cloudflare. Anonymous site-level analytics do not contain measurement data.</p></div>
+
+    <h2>Need repeatable acceptance reports?</h2>
+    <p>The free viewer is intended for quick inspection. <a href="../../pro/">BenchReport Pro</a> adds unlimited measurements and rules, reusable templates, portable projects, company branding and an offline Windows application.</p>
+
+    <h2>Touchstone viewer questions</h2>
+    <div class="faq">
+      <details><summary>Are my S-parameter files uploaded?</summary><p>No. Parsing, plotting and acceptance calculations run locally in the browser.</p></details>
+      <details><summary>Does it support both S1P and S2P?</summary><p>Yes. S1P files provide S11; S2P files can provide S11, S21, S12 and S22.</p></details>
+      <details><summary>Can I compare several measurements?</summary><p>Yes. BenchReport Free overlays up to three measurements and lets you mark one as the golden reference.</p></details>
+      <details><summary>Is BenchReport a replacement for a VNA?</summary><p>No. It analyses existing Touchstone data and produces documentation; it is not a calibrated instrument or approved test process.</p></details>
+    </div>
+  </main>
+  <!-- Cloudflare Web Analytics -->
+  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"aa14bc2992f14d8f916c7cb20798783c"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</body>
+</html>
