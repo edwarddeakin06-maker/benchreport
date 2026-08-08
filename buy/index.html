@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#071016">
+  <title>Opening secure checkout — BenchReport Pro</title>
+  <link rel="stylesheet" href="../product.css">
+  <link rel="icon" href="../assets/benchreport-icon.svg">
+  <style>
+    .checkout-shell{min-height:100vh;display:grid;place-items:center;padding:24px}
+    .checkout-card{width:min(520px,100%);text-align:center;border:1px solid #2d6d59;background:linear-gradient(135deg,#102b24,#0d1921);border-radius:16px;padding:38px 32px;box-shadow:0 24px 80px #0008}
+    .checkout-mark{display:grid;place-items:center;width:52px;height:52px;margin:0 auto 20px;border:1px solid #35846b;background:#12362d;color:#36e0a1;border-radius:12px;font-weight:850;letter-spacing:.08em}
+    .checkout-card h1{font-size:clamp(30px,7vw,45px);margin:0 0 13px;letter-spacing:-.04em;line-height:1.05}
+    .checkout-card p{margin:0 0 20px}.checkout-card .button{justify-content:center;width:100%;margin:4px 0 16px}
+    .checkout-card small{display:block;color:#71828d;line-height:1.55}
+  </style>
+</head>
+<body>
+  <main class="checkout-shell">
+    <section class="checkout-card" aria-labelledby="checkoutTitle">
+      <div class="checkout-mark" aria-hidden="true">BR</div>
+      <p class="eyebrow">BenchReport Pro · £29 once</p>
+      <h1 id="checkoutTitle">Opening secure checkout…</h1>
+      <p>You’re being sent to Gumroad to complete payment and receive the Windows installer.</p>
+      <a id="continueToCheckout" class="button" href="https://deakinator80.gumroad.com/l/benchreport-pro?utm_source=benchreport&amp;utm_medium=website&amp;utm_campaign=pro">Continue to Gumroad</a>
+      <small>No subscription · 30-day money-back guarantee · measurement files are never involved in checkout</small>
+    </section>
+  </main>
+  <!-- Cloudflare Web Analytics -->
+  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"aa14bc2992f14d8f916c7cb20798783c"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+  <script>
+    window.setTimeout(() => document.getElementById("continueToCheckout").click(), 1200);
+  </script>
+</body>
+</html>

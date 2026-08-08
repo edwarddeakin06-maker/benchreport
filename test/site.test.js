@@ -14,8 +14,17 @@ test("Pro page exposes a complete and consistent purchase path", async () => {
   assert.match(html, /not code-signed/);
   assert.match(html, /BF47ADFB5369149F72965E9CB2424CE20888D733F7261D4CE0CEB6640FE179C7/);
   assert.match(html, /benchreport-workflow\.png/);
-  assert.equal((html.match(/https:\/\/deakinator80\.gumroad\.com\/l\/benchreport-pro/g) || []).length, 3);
+  assert.equal((html.match(/href="\.\.\/buy\/"/g) || []).length, 2);
   assert.match(html, /Ready to stop rebuilding the report\?/);
+});
+
+test("Checkout handoff records purchase intent before opening Gumroad", async () => {
+  const html = await read("buy/index.html");
+  assert.match(html, /static\.cloudflareinsights\.com\/beacon\.min\.js/);
+  assert.match(html, /https:\/\/deakinator80\.gumroad\.com\/l\/benchreport-pro\?utm_source=benchreport&amp;utm_medium=website&amp;utm_campaign=pro/);
+  assert.match(html, /window\.setTimeout/);
+  assert.match(html, /Continue to Gumroad/);
+  assert.match(html, /noindex,nofollow/);
 });
 
 test("Support page publishes licence, update, refund and integrity terms", async () => {
