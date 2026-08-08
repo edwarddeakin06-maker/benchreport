@@ -14,6 +14,8 @@ test("Pro page exposes a complete and consistent purchase path", async () => {
   assert.match(html, /not code-signed/);
   assert.match(html, /BF47ADFB5369149F72965E9CB2424CE20888D733F7261D4CE0CEB6640FE179C7/);
   assert.match(html, /benchreport-workflow\.png/);
+  assert.equal((html.match(/https:\/\/deakinator80\.gumroad\.com\/l\/benchreport-pro/g) || []).length, 3);
+  assert.match(html, /Ready to stop rebuilding the report\?/);
 });
 
 test("Support page publishes licence, update, refund and integrity terms", async () => {
@@ -30,6 +32,8 @@ test("Free edition links users to the priced Pro comparison", async () => {
   assert.match(html, /one-time £29 Windows licence/);
   assert.match(html, /href="pro\/"/);
   assert.match(html, /href="support\/"/);
+  assert.match(html, /Save the project, reuse the limits, send your own report/);
+  assert.doesNotMatch(html, /BenchReport prototype/);
 });
 
 test("Free edition offers a self-contained guided demo", async () => {
