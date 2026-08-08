@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="description" content="BenchReport Pro release notes, Windows installer details, SHA-256 checksum and update policy.">
+  <title>BenchReport Pro Release Notes and Download Integrity</title><link rel="stylesheet" href="../product.css"><link rel="icon" href="../assets/benchreport-icon.svg"><link rel="canonical" href="https://edwarddeakin06-maker.github.io/benchreport/release-notes/">
+  <style>.release-head{display:flex;align-items:flex-start;justify-content:space-between;gap:25px;border-bottom:1px solid #20303b;padding-bottom:24px}.version{display:inline-flex;border:1px solid #2d6d59;border-radius:999px;background:#102b24;color:#36e0a1;padding:7px 12px;font:800 12px ui-monospace,monospace;white-space:nowrap}.feature-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;list-style:none;padding:0}.feature-list li{border:1px solid #20303b;background:#0d1921;border-radius:11px;padding:16px;color:#b0bec6;font-size:13px}.feature-list strong{display:block;color:#eef5f7;margin-bottom:4px}.integrity-table td:last-child{overflow-wrap:anywhere}.command{display:block;padding:14px 16px;white-space:pre-wrap;overflow-wrap:anywhere}.release-actions{display:flex;flex-wrap:wrap;gap:12px;margin:25px 0}.secondary-button{display:inline-flex;color:#eef5f7;text-decoration:none;font-weight:750;border:1px solid #36505f;border-radius:9px;padding:10px 15px}@media(max-width:650px){.release-head{flex-direction:column}.feature-list{grid-template-columns:1fr}}</style>
+</head>
+<body>
+  <header class="site-header"><a href="../">BenchReport</a><nav><a href="../resources/">Resources</a><a href="../support/">Support</a><a href="../pro/">Pro</a></nav></header>
+  <main class="document">
+    <p class="eyebrow">Product transparency</p>
+    <div class="release-head"><div><h1>BenchReport Pro release notes.</h1><p>Version details, included capabilities and installer integrity information for the currently delivered Windows build.</p></div><span class="version">CURRENT · 0.4.0</span></div>
+
+    <h2>BenchReport Pro 0.4.0</h2>
+    <p>This is the current Windows 10/11 installer delivered after purchase through Gumroad.</p>
+    <ul class="feature-list">
+      <li><strong>Local Touchstone analysis</strong>S1P and S2P parsing for common DB/angle, magnitude/angle and real/imaginary data.</li>
+      <li><strong>Unlimited comparison</strong>Analyse more than three measurements and apply multiple frequency-bounded acceptance rules.</li>
+      <li><strong>Reusable work</strong>Save acceptance templates locally and reopen complete portable <code>.brp</code> projects.</li>
+      <li><strong>Branded reporting</strong>Add company, project, report ID and logo fields to multi-rule printable reports.</li>
+      <li><strong>Golden reference</strong>Identify and visually emphasise a reference measurement in the trace overlay.</li>
+      <li><strong>RF statistics</strong>Record extrema, worst-case frequencies, estimated 3 dB bandwidth, centre frequency and peak insertion loss.</li>
+    </ul>
+
+    <h2>Installer integrity</h2>
+    <p>The installer is not currently signed with a commercial code-signing certificate. Windows SmartScreen may therefore show an “unrecognised app” warning. Verify the downloaded file before running it:</p>
+    <table class="integrity-table"><tbody><tr><th>Filename</th><td><code>BenchReport-Pro-0.4.0-Setup.exe</code></td></tr><tr><th>Size</th><td>99,677,579 bytes (95.1 MB)</td></tr><tr><th>SHA-256</th><td><code>BF47ADFB5369149F72965E9CB2424CE20888D733F7261D4CE0CEB6640FE179C7</code></td></tr></tbody></table>
+    <p>In PowerShell, run:</p><code class="command">Get-FileHash .\BenchReport-Pro-0.4.0-Setup.exe -Algorithm SHA256</code>
+    <p>Only continue if the returned hash exactly matches the published value above.</p>
+
+    <h2>Update policy</h2>
+    <p>The launch licence includes BenchReport Pro maintenance updates in the 0.x release series. A purchased installer will not intentionally be disabled or converted into a subscription. A future major release may be sold separately. See the <a href="../support/">complete licence, refund, support and update terms</a>.</p>
+    <div class="callout"><strong>Engineering scope</strong><p>BenchReport is analysis and documentation software. It is not a calibrated instrument, uncertainty calculation, approved test process or substitute for competent review.</p></div>
+    <div class="release-actions"><a class="button" href="../buy/">Get BenchReport Pro — £29</a><a class="secondary-button" href="../">Try BenchReport Free</a></div>
+  </main>
+  <!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"aa14bc2992f14d8f916c7cb20798783c"}'></script><!-- End Cloudflare Web Analytics -->
+</body></html>

@@ -116,6 +116,16 @@ test("Resources hub routes each major visitor intent", async () => {
   assert.match(html, /static\.cloudflareinsights\.com\/beacon\.min\.js/);
 });
 
+test("Release notes publish exact buyer-facing build information", async () => {
+  const html = await read("release-notes/index.html");
+  assert.match(html, /CURRENT · 0\.4\.0/);
+  assert.match(html, /99,677,579 bytes \(95\.1 MB\)/);
+  assert.match(html, /BF47ADFB5369149F72965E9CB2424CE20888D733F7261D4CE0CEB6640FE179C7/);
+  assert.match(html, /Get-FileHash/);
+  assert.match(html, /not currently signed/);
+  assert.match(html, /href="\.\.\/buy\/"/);
+});
+
 test("S2P comparison guide provides a useful search workflow", async () => {
   const html = await read("tools/compare-s2p-files/index.html");
   assert.match(html, /How to compare S2P files and identify failed RF limits/);
