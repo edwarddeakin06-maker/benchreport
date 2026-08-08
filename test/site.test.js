@@ -81,6 +81,21 @@ test("Touchstone viewer page is a complete search landing page", async () => {
   assert.match(html, /href="\.\.\/\.\.\/pro\/"/);
 });
 
+test("VNA report page documents a complete and accurate workflow", async () => {
+  const html = await read("tools/vna-report-generator/index.html");
+  assert.match(html, /"@type":"HowTo"/);
+  assert.match(html, /"@type":"FAQPage"/);
+  assert.match(html, /From VNA export to PDF/);
+  assert.match(html, /−2\.35 dB at 1\.10 GHz/);
+  assert.match(html, /does not perform VNA calibration/);
+  assert.match(html, /href="\.\.\/\.\.\/pro\/"/);
+});
+
+test("Sitemap publishes valid modification dates", async () => {
+  const sitemap = await read("sitemap.xml");
+  assert.equal((sitemap.match(/<url>/g) || []).length, (sitemap.match(/<lastmod>2026-08-08<\/lastmod>/g) || []).length);
+});
+
 test("S2P comparison guide provides a useful search workflow", async () => {
   const html = await read("tools/compare-s2p-files/index.html");
   assert.match(html, /How to compare S2P files and identify failed RF limits/);

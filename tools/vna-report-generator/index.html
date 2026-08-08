@@ -1,3 +1,76 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="description" content="Create a professional PDF VNA and S-parameter measurement report from Touchstone files in your browser."><title>VNA Measurement Report Generator — BenchReport</title><link rel="stylesheet" href="../../product.css"><link rel="canonical" href="https://edwarddeakin06-maker.github.io/benchreport/tools/vna-report-generator/"></head>
-<body><header class="site-header"><a href="../../">BenchReport</a><nav><a href="../touchstone-viewer/">Touchstone viewer</a><a href="../../guide/">Guide</a><a href="../../formats/">Formats</a></nav></header><main class="document"><p class="eyebrow">RF documentation</p><h1>Create an S-parameter report without rebuilding plots in Excel.</h1><p>BenchReport turns Touchstone measurements and acceptance rules into a report containing plots, trace statistics, worst-case frequencies, context, and rule-by-rule pass/fail results.</p><div class="tool-cta"><div><strong>Export through your browser</strong><p>Choose “Save as PDF” in the print dialog.</p></div><a class="button" href="../../">Build a free VNA report</a></div><h2>Designed for review, not instrument replacement</h2><p>The report records what BenchReport calculated from the supplied samples. It does not perform calibration, uncertainty analysis, de-embedding, or instrument control. Review the report against your approved engineering process.</p><h2>Need reusable, branded reports?</h2><p><a href="../../pro/">BenchReport Pro</a> adds unlimited rules and measurements, saved projects, acceptance templates, company metadata and logo branding.</p></main><!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"aa14bc2992f14d8f916c7cb20798783c"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width">
+  <meta name="description" content="Create a PDF VNA measurement report from S1P or S2P Touchstone files. Plot S-parameters, apply RF limits and document pass/fail results locally.">
+  <meta property="og:type" content="website"><meta property="og:title" content="VNA Measurement Report Generator — BenchReport">
+  <meta property="og:description" content="Turn local Touchstone measurements into a structured RF report without rebuilding plots in Excel.">
+  <meta property="og:url" content="https://edwarddeakin06-maker.github.io/benchreport/tools/vna-report-generator/">
+  <meta property="og:image" content="https://edwarddeakin06-maker.github.io/benchreport/assets/benchreport-pro-cover.png"><meta name="twitter:card" content="summary_large_image">
+  <title>VNA Measurement Report Generator — BenchReport</title>
+  <link rel="stylesheet" href="../../product.css"><link rel="icon" href="../../assets/benchreport-icon.svg"><link rel="canonical" href="https://edwarddeakin06-maker.github.io/benchreport/tools/vna-report-generator/">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org","@type":"HowTo","name":"How to create a VNA measurement report from Touchstone files","description":"Load S1P or S2P measurements, define an acceptance rule, review the RF results and save the finished report as PDF.",
+    "step":[
+      {"@type":"HowToStep","name":"Load Touchstone measurements","text":"Choose local S1P or S2P files exported by the VNA."},
+      {"@type":"HowToStep","name":"Set the RF acceptance rule","text":"Select an S-parameter, frequency band, threshold and minimum or maximum comparison."},
+      {"@type":"HowToStep","name":"Review the calculated results","text":"Inspect the plot, extrema, worst-case frequency, statistics and pass/fail result."},
+      {"@type":"HowToStep","name":"Save the report","text":"Add report context, open the print view and choose Save as PDF."}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Does BenchReport connect to a VNA?","acceptedAnswer":{"@type":"Answer","text":"No. BenchReport analyses Touchstone files already exported from a VNA; it does not control the instrument."}},
+    {"@type":"Question","name":"Are VNA measurement files uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. The browser edition parses measurement contents locally on the device."}},
+    {"@type":"Question","name":"Can the report show RF pass and fail results?","acceptedAnswer":{"@type":"Answer","text":"Yes. A frequency-bounded minimum or maximum dB rule produces per-measurement results and the worst value and frequency."}}
+  ]}
+  </script>
+  <style>
+    .report-grid,.step-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}.report-grid article,.step-grid article{border:1px solid #20303b;background:#0d1921;border-radius:12px;padding:18px}.report-grid h3,.step-grid h3{font-size:16px;margin:0 0 6px}.report-grid p,.step-grid p{font-size:13px;margin:0}.report-preview{margin:34px 0}.report-preview img{display:block;width:100%;border:1px solid #20303b;border-radius:14px;box-shadow:0 24px 80px #0008}.report-preview figcaption{color:#71828d;font-size:12px;margin-top:9px}.example-table td:last-child{font-weight:800}.faq details{border-bottom:1px solid #20303b;padding:14px 0}.faq summary{cursor:pointer;font-weight:750}.faq p{margin-bottom:4px}@media(max-width:700px){.report-grid,.step-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="site-header"><a href="../../">BenchReport</a><nav><a href="../touchstone-viewer/">Touchstone viewer</a><a href="../compare-s2p-files/">S2P guide</a><a href="../../formats/">Formats</a></nav></header>
+  <main class="document">
+    <p class="eyebrow">Local RF documentation</p>
+    <h1>Create a VNA measurement report without rebuilding plots in Excel.</h1>
+    <p>BenchReport turns S1P and S2P Touchstone measurements into a structured report with an S-parameter plot, calculated statistics, worst-case frequencies and rule-by-rule pass/fail results.</p>
+    <div class="tool-cta"><div><strong>Build and save a report in your browser</strong><p>No account and no measurement upload. Choose “Save as PDF” in the print dialog.</p></div><a class="button" href="../../">Create a free VNA report</a></div>
+
+    <h2>What the report can contain</h2>
+    <div class="report-grid">
+      <article><h3>Measurement overlay</h3><p>Compare colour-coded S11, S21, S12 or S22 traces across frequency.</p></article>
+      <article><h3>Acceptance evidence</h3><p>Record the requirement, worst measured value, worst frequency and pass/fail result.</p></article>
+      <article><h3>Review context</h3><p>Include DUT, engineer, notes and generation date; Pro adds full project metadata and branding.</p></article>
+    </div>
+    <figure class="report-preview"><img src="../../assets/benchreport-workflow.png" alt="BenchReport showing three S2P traces, a frequency-band acceptance rule and a failed measurement result"><figcaption>BenchReport using the included synthetic filter data. The failing unit is identified with its worst S21 value and frequency.</figcaption></figure>
+
+    <h2>From VNA export to PDF</h2>
+    <div class="step-grid">
+      <article><h3>1 · Export</h3><p>Save the required measurement channels from the VNA as S1P or S2P Touchstone files.</p></article>
+      <article><h3>2 · Evaluate</h3><p>Load the files locally, choose a trace and enter the applicable frequency-band limit.</p></article>
+      <article><h3>3 · Document</h3><p>Review every result, add test context, then print the structured report to PDF.</p></article>
+    </div>
+
+    <h2>Example acceptance record</h2>
+    <p>For a passband rule requiring S21 to remain at least −2 dB from 900 MHz to 1.1 GHz, the report records evidence like this:</p>
+    <table class="example-table"><thead><tr><th>Measurement</th><th>Requirement</th><th>Worst value / frequency</th><th>Result</th></tr></thead><tbody><tr><td>Golden filter</td><td>S21 ≥ −2 dB</td><td>−1.20 dB at 1.10 GHz</td><td>Pass</td></tr><tr><td>Unit 042</td><td>S21 ≥ −2 dB</td><td>−2.35 dB at 1.10 GHz</td><td>Fail</td></tr></tbody></table>
+
+    <h2>Free report generator versus Pro</h2>
+    <p>The free browser edition supports three measurements, one acceptance rule and a clean printable report. <a href="../../pro/">BenchReport Pro for Windows</a> adds unlimited measurements and rules, reusable acceptance templates, saved <code>.brp</code> projects, company logo and metadata, and branded multi-rule reports.</p>
+
+    <h2>Designed for review, not instrument replacement</h2>
+    <p>BenchReport analyses the samples contained in supplied files. It does not perform VNA calibration, uncertainty analysis, interpolation at limit boundaries, de-embedding, time-domain transformation or instrument control. A competent engineer must review results against the source data and approved process.</p>
+
+    <h2>VNA report questions</h2>
+    <div class="faq">
+      <details><summary>Does it connect directly to my VNA?</summary><p>No. Export S1P or S2P files from the instrument, then open those files in BenchReport.</p></details>
+      <details><summary>Are measurement files uploaded?</summary><p>No. Parsing, plotting and reporting run locally in the browser. Anonymous website analytics contain no measurement contents.</p></details>
+      <details><summary>Which S-parameters can I report?</summary><p>S1P supplies S11. A supported S2P file can supply S11, S21, S12 and S22.</p></details>
+      <details><summary>Can it make an official compliance report?</summary><p>BenchReport creates analysis documentation, not an approved test process. Your organisation remains responsible for calibration, uncertainty and engineering approval.</p></details>
+    </div>
+  </main>
+  <!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"aa14bc2992f14d8f916c7cb20798783c"}'></script><!-- End Cloudflare Web Analytics -->
+</body></html>
