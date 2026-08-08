@@ -10,7 +10,8 @@
     "start": "node server.js",
     "desktop": "electron .",
     "dist:win": "electron-builder --win nsis",
-    "test": "node --test",
+    "test": "node --test && node scripts/check-links.mjs",
+    "check:links": "node scripts/check-links.mjs",
     "indexnow": "node scripts/submit-indexnow.mjs"
   },
   "build": {
